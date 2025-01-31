@@ -1,0 +1,150 @@
+/* Footer Container */
+.footer-container {
+  background-color: #FDD017;
+  color: #001f54;
+  padding: 40px 20px;
+  text-align: center;
+  font-family: Arial, sans-serif;
+  border-top-left-radius: 25px;
+  border-top-right-radius: 25px;
+}
+
+/* Newsletter Section */
+.newsletter-section {
+  margin-bottom: 30px;
+}
+
+.newsletter-heading {
+  font-size: 1.5rem;
+  margin-bottom: 15px;
+}
+
+.newsletter-form {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+}
+
+.newsletter-input {
+  width: 300px;
+  padding: 10px;
+  font-size: 1rem;
+  border: 2px solid #001f54;
+  border-radius: 30px;
+  outline: none;
+}
+
+.newsletter-submit {
+  background-color: #001f54;
+  color: #C9A33E;
+  border: none;
+  padding: 10px 20px;
+  font-size: 1rem;
+  border-radius: 30px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.newsletter-submit:hover {
+  background-color: #002a73;
+}
+
+/* Social Icons */
+.social-icons {
+  display: flex;
+  justify-content: center;
+  gap: 15px;
+  margin: 20px 0;
+}
+
+.social-icon {
+  color: #001f54;
+  font-size: 1.5rem;
+  transition: transform 0.3s ease, color 0.3s ease;
+}
+
+.social-icon:hover {
+  transform: scale(1.2);
+  color: #002a73;
+}
+
+/* Footer Content */
+.footer-content {
+  margin-top: 30px;
+}
+
+.footer-copyright {
+  margin-bottom: 10px;
+  font-size: 0.9rem;
+  font-weight: bold;
+}
+
+.footer-made-by {
+  font-size: 0.8rem;
+  color: #001f54;
+  padding-bottom: 5px;
+}
+
+/* Media Queries for Responsiveness */
+@media screen and (max-width: 768px) {
+  .newsletter-heading {
+    font-size: 1.2rem; /* Reduced size for heading */
+  }
+
+  .newsletter-input {
+    width: 250px; /* Adjust the width for better fitting */
+    padding: 8px; /* Reduce padding */
+    font-size: 0.9rem; /* Reduced font size */
+  }
+
+  .newsletter-submit {
+    padding: 8px 15px; /* Reduced padding */
+    font-size: 0.9rem; /* Reduced font size */
+  }
+
+  .social-icon {
+    font-size: 1.2rem; /* Slightly reduced font size for social icons */
+  }
+
+  .footer-copyright {
+    font-size: 0.8rem; /* Slightly smaller font size for copyright */
+  }
+
+  .footer-made-by {
+    font-size: 0.7rem; /* Reduced size for "Made by" text */
+  }
+}
+
+@media screen and (max-width: 480px) {
+  .footer-container {
+    padding: 30px 15px; /* Reduced padding for mobile */
+  }
+
+  .newsletter-heading {
+    font-size: 1rem; /* Further reduced size for mobile */
+  }
+
+  .newsletter-input {
+    width: 200px; /* Adjust the width for mobile */
+    padding: 6px; /* Further reduce padding */
+    font-size: 0.8rem; /* Reduced font size for mobile */
+  }
+
+  .newsletter-submit {
+    padding: 6px 12px; /* Further reduced padding */
+    font-size: 0.8rem; /* Further reduced font size */
+  }
+
+  .social-icon {
+    font-size: 1rem; /* Reduced size for social icons on mobile */
+  }
+
+  .footer-copyright {
+    font-size: 0.7rem; /* Further reduced size for mobile */
+  }
+
+  .footer-made-by {
+    font-size: 0.6rem; /* Further reduced size for mobile */
+  }
+}

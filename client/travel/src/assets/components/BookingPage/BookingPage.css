@@ -1,0 +1,104 @@
+.booking-page {
+    max-width: 60%;
+    margin: auto;
+    margin-top: 40px;
+    margin-bottom: 40px;
+    padding: 20px;
+    background-color: #f9f9f9;
+    border-radius: 10px;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+    font-family: 'Poppins', sans-serif;
+  }
+  
+  .page-title {
+    text-align: center;
+    font-size: 2.5rem;
+    color: #003366;
+    margin-bottom: 20px;
+  }
+  
+  .form-container {
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    margin: 20px 0; /* Margin of 20px above and below the contact form */
+  }
+  
+  .form-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+  }
+  
+  .form-header h2 {
+    font-size: 1.5rem;
+    color: #333;
+  }
+  
+  .form-header select {
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 1rem;
+  }
+  
+  .contact-details {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+  
+  .contact-details label {
+    font-size: 1rem;
+    color: #555;
+  }
+  
+  .contact-details input,
+  .contact-details select {
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 1rem;
+    font-family: 'Poppins', sans-serif;
+  }
+  
+  .contact-details input::placeholder,
+  .contact-details select::placeholder {
+    font-family: 'Poppins', sans-serif;
+  }
+  
+  .submit-button {
+    padding: 10px 20px;
+    background-color: #003366;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    font-size: 1rem;
+    cursor: pointer;
+    margin-top: 20px;
+    align-self: flex-start;
+  }
+  
+  .submit-button:hover {
+    background-color: #002244;
+  }
+  
+  .caution-note {
+    margin-top: 20px;
+    padding: 10px;
+    background-color: #fff3cd;
+    border: 1px solid #ffeeba;
+    border-radius: 5px;
+    color: #856404;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 1rem;
+  }
+  
+  .caution-note span {
+    font-size: 20px;
+    margin-right: 10px;
+  }

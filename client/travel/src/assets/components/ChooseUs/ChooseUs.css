@@ -1,0 +1,161 @@
+/* General styling for Choose Us section */
+.choose-us {
+  padding: 40px 220px;
+  background-color: #f3f4f6;
+  text-align: center;
+}
+
+/* Section title styling */
+.section-title {
+  font-size: 66px;
+  margin-bottom: 30px;
+  color: #001f54;
+  font-family: 'Poppins', sans-serif;
+  font-weight: bold;
+}
+
+/* Content styling */
+.choose-us-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+}
+
+/* Text styling */
+.choose-us-text {
+  max-width: 600px;
+  text-align: left;
+}
+
+/* List styling inside the text */
+.choose-us-text ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.choose-us-text li {
+  font-size: 1.2rem;
+  margin-bottom: 10px;
+  color: #001f54;
+  font-family: 'Poppins', sans-serif;
+}
+
+/* Button styling */
+.contact-button {
+  background-color: #C9A33E;
+  color: #ffffff;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 10px;
+  cursor: pointer;
+  font-size: 1.2rem;
+  font-weight: medium;
+  transition: background-color 0.3s ease;
+  margin-top: 20px;
+}
+
+.contact-button:hover {
+  background-color: #ffd700;
+}
+
+/* Image styling */
+.choose-us-image img {
+  width: 100%;
+  max-width: 400px;
+  border-radius: 10px;
+}
+
+/* Media Queries for responsiveness */
+
+/* For tablets (min-width: 768px) */
+@media (min-width: 768px) {
+  .choose-us-content {
+    flex-direction: row;
+    justify-content: space-between;
+  }
+
+  .choose-us-text {
+    text-align: left;
+  }
+
+  .choose-us {
+    padding: 40px 80px; /* Adjust padding for tablets */
+  }
+
+  .section-title {
+    font-size: 48px; /* Adjust font size for tablets */
+  }
+
+  .choose-us-text li {
+    font-size: 1rem; /* Adjust list item font size for readability */
+  }
+
+  .contact-button {
+    font-size: 1.1rem; /* Slightly smaller button text */
+    padding: 12px 25px; /* Larger padding for better click area */
+  }
+
+  .choose-us-image img {
+    max-width: 300px; /* Slightly smaller images */
+  }
+}
+
+/* For mobile devices (max-width: 767px) */
+@media (max-width: 767px) {
+  .choose-us {
+    padding: 20px; /* Reduce padding for small screens */
+  }
+
+  .section-title {
+    font-size: 36px; /* Smaller section title font */
+  }
+
+  .choose-us-content {
+    flex-direction: column; /* Stack items vertically */
+    align-items: center;
+  }
+
+  .choose-us-text {
+    text-align: center; /* Center-align text on small screens */
+    padding: 0 10px; /* Add some horizontal padding */
+  }
+
+  .choose-us-text li {
+    font-size: 1rem; /* Adjust font size for mobile readability */
+  }
+
+  .contact-button {
+    font-size: 1.1rem; /* Reduce font size for mobile */
+    padding: 12px 25px;
+    width: 100%; /* Make the button take full width */
+    margin-top: 15px; /* Reduce margin */
+  }
+
+  .choose-us-image img {
+    max-width: 90%; /* Make image responsive */
+    height: auto; /* Ensure image maintains aspect ratio */
+  }
+}
+
+/* For very small screens (max-width: 480px) */
+@media (max-width: 480px) {
+  .section-title {
+    font-size: 28px; /* Further reduce the title size */
+  }
+
+  .choose-us-text li {
+    font-size: 0.95rem; /* Reduce list item font size */
+  }
+
+  .contact-button {
+    font-size: 1rem; /* Smaller button text */
+    padding: 10px 20px; /* Adjust button padding */
+  }
+
+  .choose-us-image img {
+    display: none; /* Hide image section on very small screens */
+    max-width: 80%; /* Further reduce image size */
+  }
+}

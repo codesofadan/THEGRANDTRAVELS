@@ -1,0 +1,191 @@
+.flight-deals {
+  text-align: center;
+  padding: 20px;
+  background-color: #f9f9f9;
+}
+
+.flight-deals h2 {
+  padding-top: 20px;
+  font-size: 2rem;
+  color: #001F54;
+  margin-bottom: 10px;
+}
+
+.flight-deals p {
+  color: #555;
+  margin-bottom: 20px;
+}
+
+.flight-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr); /* Ensure 4 cards in a row */
+  gap: 20px;
+  padding: 20px 20px;
+  cursor: pointer;
+}
+
+.flight-card {
+  position: relative;
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+  text-align: right;
+  transition: transform 0.3s ease, box-shadow 0.3s ease, background-color 0.3s ease;
+  padding: 10px; /* Add padding of 10px from both sides */
+}
+
+/* Remove hover effects */
+/*
+.flight-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+  background-color: #001F54; 
+  color: white; 
+}
+
+.flight-card:hover .flight-info,
+.flight-card:hover .flight-dates,
+.flight-card:hover .flight-city,
+.flight-card:hover .flight-price {
+  color: white; 
+}
+
+.flight-card:hover .circle-overlay {
+  display: none; 
+}
+
+.flight-card:hover .shadow-circle {
+  background-color: white; 
+}
+
+.flight-card:hover .flight-price span {
+  color: white; 
+}
+
+.flight-card:hover .book-button {
+  background-color: white; 
+  color: #001F54; 
+}
+*/
+
+.circle-overlay {
+  position: absolute;
+  top: -50px;
+  right: -50px;
+  width: 150px;
+  height: 150px;
+  background: #ffcc00;
+  border-radius: 50%;
+  z-index: 1;
+}
+
+.shadow-circle {
+  position: absolute;
+  top: -35px; /* Adjust as needed */
+  left: -25px; /* Adjust as needed */
+  width: 210px; /* Slightly larger than the image */
+  height: 210px; /* Slightly larger than the image */
+  background: rgba(60, 57, 57, 0.1); /* Light black color */
+  border-radius: 50%;
+  z-index: 0; /* Ensure the shadow is behind the image */
+}
+
+.flight-image-container {
+  position: absolute;
+  top: -30px; /* Make it protrude out of the card */
+  left: -30px; /* Make it protrude out of the card */
+  width: 200px; /* Increase size to match the other circle */
+  height: 200px; /* Increase size to match the other circle */
+  border-radius: 50%;
+  overflow: hidden;
+  z-index: 1; /* Ensure the image is above the shadow */
+}
+
+.flight-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.flight-info {
+  padding: 15px;
+  z-index: 2; /* Ensure the text is above the image */
+  position: relative; /* Ensure proper stacking context */
+}
+
+.flight-dates {
+  font-size: 0.9rem;
+  color: #888;
+  margin: 0;
+}
+
+.flight-city {
+  font-size: 1.2rem;
+  color: #333;
+  margin: 10px 0;
+}
+
+.flight-price {
+  font-size: 1rem;
+  color: #001F54;
+  font-weight: bold;
+}
+
+.flight-price span {
+  color: #333;
+}
+
+.flight-deals .book-button {
+  padding: 10px 20px;
+  margin-right: auto;
+  background-color: #ffcc00; /* Navy Blue */
+  color: #000; /* Golden */
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s, transform 0.2s;
+}
+
+.flight-deals .book-button:hover {
+  background-color: #002244; /* Darker Navy Blue */
+  transform: translateY(-2px);
+}
+
+.flight-deals .book-button:active {
+  transform: translateY(0);
+}
+
+.load-more {
+  background: #001F54;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  margin: 10px;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+
+.load-more:hover {
+  background: #e63900;
+}
+
+/* Responsive Adjustments */
+@media (max-width: 1200px) {
+  .flight-grid {
+    grid-template-columns: repeat(3, 1fr); /* 3 cards in a row for medium screens */
+  }
+}
+
+@media (max-width: 768px) {
+  .flight-grid {
+    grid-template-columns: repeat(2, 1fr); /* 2 cards in a row for small screens */
+  }
+}
+
+@media (max-width: 480px) {
+  .flight-grid {
+    grid-template-columns: 1fr; /* 1 card in a row for extra small screens */
+  }
+}

@@ -1,0 +1,164 @@
+.destination-page {
+  font-family: 'Poppins', sans-serif;
+  padding: 20px;
+  text-align: center;
+}
+
+.page-header {
+  margin-bottom: 40px;
+}
+
+.page-header h1 {
+  font-size: 2.5rem;
+  color: #333;
+}
+
+.page-header p {
+  font-size: 1.2rem;
+  color: #666;
+}
+
+.destination-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 20px;
+  padding: 20px;
+}
+
+.destination-card {
+  background-color: #f9f9f9;
+  border-radius: 0px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+  text-align: left;
+  height: auto;
+  opacity: 0; /* Initial state for animation */
+  transform: translateY(50px) rotate(-5deg); /* Slide and tilt out of view */
+  transition: transform 1.5s cubic-bezier(0.25, 1, 0.5, 1), opacity 0.6s ease;
+}
+
+.destination-card.in-view {
+  opacity: 1;
+  transform: translateY(0) rotate(0deg); /* Slide into view and reset tilt */
+}
+
+.destination-banner {
+  width: 100%;
+  height: 200px;
+  object-fit: cover;
+  border-bottom: 1px solid #ddd;
+}
+
+.destination-info {
+  padding: 20px;
+}
+
+.destination-info h2 {
+  font-size: 1.5rem;
+  color: #333;
+}
+
+.destination-info p {
+  font-size: 1rem;
+  color: #555;
+  margin: 10px 0;
+}
+
+.action-buttons {
+  margin-top: 20px;
+}
+
+.book-button {
+  background-color: #007BFF;
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  border-radius: px;
+  cursor: pointer;
+  font-size: 1rem;
+  margin-right: 10px;
+  transition: background-color 0.3s ease;
+}
+
+.book-button:hover {
+  background-color: #0056b3;
+}
+
+/* Responsive Adjustments */
+@media (max-width: 1024px) {
+  .page-header h1 {
+    font-size: 2rem;
+  }
+
+  .page-header p {
+    font-size: 1rem;
+  }
+
+  .destination-info h2 {
+    font-size: 1.25rem;
+  }
+
+  .destination-info p {
+    font-size: 0.9rem;
+  }
+
+  .book-button {
+    font-size: 0.9rem;
+    padding: 8px 16px;
+  }
+}
+
+@media (max-width: 768px) {
+  .page-header h1 {
+    font-size: 1.75rem;
+  }
+
+  .page-header p {
+    font-size: 0.9rem;
+  }
+
+  .destination-info h2 {
+    font-size: 1.1rem;
+  }
+
+  .destination-info p {
+    font-size: 0.8rem;
+  }
+
+  .book-button {
+    font-size: 0.8rem;
+    padding: 6px 12px;
+  }
+}
+
+@media (max-width: 480px) {
+  .page-header h1 {
+    font-size: 1.5rem;
+  }
+
+  .page-header p {
+    font-size: 0.8rem;
+  }
+
+  .destination-info h2 {
+    font-size: 1rem;
+  }
+
+  .destination-info p {
+    font-size: 0.7rem;
+  }
+
+  .book-button {
+    font-size: 0.7rem;
+    padding: 5px 10px;
+  }
+
+  .destination-list {
+    grid-template-columns: 1fr; /* Single column layout for small screens */
+  }
+
+  .destination-card {
+    transform: none; /* Remove initial transform for better visibility */
+    opacity: 1; /* Ensure cards are visible */
+  }
+}

@@ -1,0 +1,89 @@
+/* General styling */
+.blog-comp {
+    padding: 2rem;
+    background-color: #f9f9f9;
+    font-family: "Poppins", sans-serif; ;
+  }
+  
+  .blog-title {
+    text-align: center;
+    font-size: 2.5rem;
+    font-weight: bold;
+    margin-bottom: 1.5rem;
+    color: #001F54;
+  }
+  
+  /* Grid layout */
+  .blog-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 1.5rem;
+  }
+  
+  /* Card styling */
+  .blog-card {
+    background: #fff;
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+  }
+  
+  .blog-card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+  }
+  
+  /* Blog image */
+  .blog-image {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+  }
+  
+  /* Blog content */
+  .blog-content {
+    padding: 1rem;
+  }
+  
+  .blog-card-title {
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: #222;
+    margin-bottom: 0.5rem;
+  }
+  
+  .blog-description {
+    font-size: 1rem;
+    color: #555;
+    margin-bottom: 1rem;
+  }
+  
+  /* Read more button */
+  .blog-read-more {
+    text-decoration: none;
+    font-size: 1rem;
+    color: #0073e6;
+    font-weight: bold;
+    transition: color 0.3s ease;
+  }
+  
+  .blog-read-more:hover {
+    color: #005bb5;
+  }
+  
+  /* Responsive design */
+  @media (max-width: 768px) {
+    .blog-title {
+      font-size: 2rem;
+    }
+  
+    .blog-card-title {
+      font-size: 1.25rem;
+    }
+  
+    .blog-description {
+      font-size: 0.9rem;
+    }
+  }
+  

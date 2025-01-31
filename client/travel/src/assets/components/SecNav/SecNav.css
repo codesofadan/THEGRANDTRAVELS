@@ -1,0 +1,39 @@
+.two-navbar {
+  width: 100%;
+  height: 50px;
+  background-color: whitesmoke; /* Black background with 50% opacity */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.navbar-links {
+  list-style: none;
+  display: flex;
+  gap: 20px;
+  padding: 0;
+  margin: 0;
+}
+
+.navbar-links li {
+  display: inline;
+}
+
+.navbar-links a {
+  text-decoration: none;
+  color: #001F54; /* Navy Blue */
+  font-family: Poppins;
+  font-size: 1rem;
+  transition: color 0.3s ease;
+}
+
+.navbar-links a:hover {
+  color: #C9A33E; /* Golden color on hover */
+}
+
+/* Media Queries for Small Screens */
+@media screen and (max-width: 768px) {
+  .two-navbar {
+    display: none; /* Hide navbar on screens smaller than 768px */
+  }
+}

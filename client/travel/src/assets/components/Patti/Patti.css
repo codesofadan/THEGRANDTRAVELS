@@ -1,0 +1,28 @@
+.patti-ticker {
+    width: 100%;
+    background-color: #001f54; /* Navy Blue */
+    color: #ffffff; /* White Text */
+    padding: 10px 0;
+    font-size: 1.2rem;
+    font-family: Poppins;
+    font-weight: bold;
+    text-align: center;
+    overflow: hidden;
+    position: relative;
+  }
+  
+  .patti-ticker p {
+    display: inline-block;
+    white-space: nowrap;
+    animation: patti-slide 10s linear infinite;
+  }
+  
+  @keyframes patti-slide {
+    from {
+      transform: translateX(100%);
+    }
+    to {
+      transform: translateX(-100%);
+    }
+  }
+  

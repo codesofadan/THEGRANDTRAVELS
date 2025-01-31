@@ -1,0 +1,233 @@
+/* Container styling */
+.agent-login-container {
+  display: flex;
+  height: 100vh;
+  background-color: #001F54;
+  color: #fff;
+  align-items: center;
+  justify-content: center;
+  padding: 120px;
+}
+
+.agent-login-content {
+  flex: 1;
+  max-width: 500px;
+  animation: fadeIn 1.2s ease-in-out;
+}
+
+.agent-heading {
+  font-size: 2.5rem;
+  font-weight: bold;
+  font-family: Poppins, sans-serif;
+  margin-bottom: 1rem;
+  animation: slideInFromLeft 1s ease-in-out;
+}
+
+.agent-subtext {
+  font-size: 1.2rem;
+  margin-bottom: 2rem;
+  font-family: Poppins, sans-serif;
+  animation: slideInFromLeft 1.5s ease-in-out;
+}
+
+.agent-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+/* Input fields */
+.agent-input {
+  padding: 0.8rem;
+  font-size: 1rem;
+  border: 2px solid #fff;
+  border-radius: 5px;
+  background-color: #fff;
+  color: #fff;
+  transition: background-color 0.3s ease, border-color 0.3s ease;
+}
+
+.agent-input:focus {
+  border-color: #0073e6;
+  outline: none;
+  background-color: #005bb5;
+}
+
+/* Buttons */
+.agent-button {
+  padding: 0.8rem;
+  font-size: 1rem;
+  font-weight: bold;
+  background-color: #005bb5;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.agent-button:hover {
+  background-color: #C9A33E;
+}
+
+.agent-button.register {
+  background-color: #005bb5;
+}
+
+.agent-button.register:hover {
+  background-color: #C9A33E;
+}
+
+/* Contact admin button */
+.contact-admin-button {
+  margin-top: 1.5rem;
+  padding: 0.8rem;
+  font-size: 1rem;
+  background-color: transparent;
+  color: #cdb833;
+  border: 2px solid #fff;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.contact-admin-button:hover {
+  background-color: #fff;
+  color: #001F54;
+}
+
+/* Image section */
+.agent-login-image {
+  flex: 1;
+  width: 100vh;
+  height: 100vh;
+  display: flex;
+  padding-left: 250px;
+  align-items: center;
+  justify-content: center;
+}
+
+.agent-image {
+  width: 100vh;
+  height: 100vh;
+  right: 0px;
+  animation: fadeIn 2s ease-in-out;
+}
+
+/* Animations */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes slideInFromLeft {
+  from {
+    transform: translateX(-50%);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+/* Media Queries for Responsiveness */
+@media screen and (max-width: 1024px) {
+  .agent-login-container {
+    padding: 80px;
+  }
+
+  .agent-heading {
+    font-size: 2rem;
+  }
+
+  .agent-subtext {
+    font-size: 1rem;
+  }
+
+  .agent-input {
+    font-size: 0.9rem;
+  }
+
+  .agent-button {
+    font-size: 0.9rem;
+  }
+
+  .contact-admin-button {
+    font-size: 0.9rem;
+  }
+
+  .agent-login-image {
+    padding-left: 150px;
+  }
+}
+
+@media screen and (max-width: 768px) {
+  .agent-login-container {
+    padding: 50px;
+    flex-direction: column;
+    justify-content: flex-start;
+  }
+
+  .agent-login-content {
+    max-width: 100%;
+    animation: none;
+  }
+
+  .agent-heading {
+    font-size: 1.8rem;
+  }
+
+  .agent-subtext {
+    font-size: 1rem;
+  }
+
+  .agent-form {
+    gap: 0.8rem;
+  }
+
+  .agent-input {
+    font-size: 0.9rem;
+  }
+
+  .agent-button {
+    font-size: 0.9rem;
+  }
+
+  .contact-admin-button {
+    font-size: 0.9rem;
+  }
+
+  .agent-login-image {
+    display: none; /* Hide image section on smaller screens */
+  }
+}
+
+@media screen and (max-width: 480px) {
+  .agent-heading {
+    font-size: 1.5rem;
+  }
+
+  .agent-subtext {
+    font-size: 0.9rem;
+  }
+
+  .agent-input {
+    padding: 0.7rem;
+    font-size: 0.85rem;
+  }
+
+  .agent-button {
+    padding: 0.7rem;
+    font-size: 0.85rem;
+  }
+
+  .contact-admin-button {
+    padding: 0.7rem;
+    font-size: 0.85rem;
+  }
+}

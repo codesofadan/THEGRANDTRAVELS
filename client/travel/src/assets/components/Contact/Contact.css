@@ -1,0 +1,156 @@
+/* Contact Container */
+.contact-container {
+  padding: 40px 20px;
+  background-color: #f9f9f9;
+  text-align: center;
+}
+
+.contact-heading {
+  font-size: 66px;
+  margin-bottom: 20px;
+  color: #001f54;
+  font-family: 'Poppins', sans-serif;
+}
+
+.contact-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+}
+
+.contact-form {
+  background-color: #001f54;
+  width: 350px;
+  height: 400px;
+  border-radius: px;
+  padding: 30px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.contact-input {
+  width: 100%;
+  padding: 15px;
+  border: none;
+  border-radius: px;
+  margin-bottom: 15px;
+  font-size: 1rem;
+  color: #001f54;
+  
+}
+
+.contact-message {
+  height: 100px;
+  resize: none;
+}
+
+.contact-button {
+  width: 100%;
+  padding: 15px;
+  background-color: #FDD017;
+  color: #001f54;
+  border: none;
+  border-radius: 0px;
+  font-size: 1.2rem;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.contact-button:hover {
+  background-color: #ffd700;
+}
+
+/* Map Container */
+.map-container {
+  display: flex;
+  justify-content: center;
+}
+
+.map-container iframe {
+  border: 0;
+  border-radius: 0px;
+  width: 350px;
+  max-width: 600px;
+  height: 365px;
+}
+
+/* Media Queries for Responsiveness */
+
+/* For tablets and larger screens (min-width: 768px) */
+@media (min-width: 768px) {
+  .contact-content {
+    flex-direction: row;
+    justify-content: center;
+    align-items: flex-start;
+    gap: 40px; /* Increase gap between form and map */
+  }
+
+  .contact-form {
+    margin-right: 20px;
+    width: 400px; /* Adjust the width of the contact form */
+  }
+
+  .contact-heading {
+    font-size: 48px; /* Reduced heading size for larger screens */
+  }
+
+  .contact-button {
+    font-size: 1rem; /* Slightly smaller button text */
+    padding: 12px; /* Adjust padding for larger screens */
+  }
+
+  .map-container iframe {
+    width: 500px; /* Increase map size for larger screens */
+    height: 400px; /* Increase map height for larger screens */
+  }
+}
+
+/* For smaller screens (max-width: 768px) */
+@media (max-width: 480px) {
+  .contact-form {
+    width: 80%; /* Form takes up full width on smaller screens */
+    padding: 20px; /* Adjust padding for smaller screens */
+    height: fit-content;
+  }
+
+  .contact-heading {
+    font-size: 40px; /* Reduced heading size for mobile */
+  }
+
+  .contact-button {
+    font-size: 1.1rem; /* Slightly smaller button text */
+    padding: 12px; /* Adjust padding */
+  }
+
+  .map-container iframe {
+    width: 90%; /* Adjust map size for smaller screens */
+    height: 300px; /* Adjust map height for smaller screens */
+  }
+}
+
+/* For very small screens (max-width: 480px) */
+@media (max-width: 480px) {
+  .contact-heading {
+    font-size: 32px; /* Reduced font size for very small screens */
+  }
+
+  .contact-form {
+    width: 100%;
+    padding: 15px; /* Reduced padding */
+  }
+
+  .contact-button {
+    font-size: 1rem; /* Slightly smaller button text */
+    padding: 10px; /* Further reduced padding */
+  }
+
+  .map-container iframe {
+    width: 100%; /* Full-width map on very small screens */
+    height: 250px; /* Adjust height */
+    display: none;
+  }
+}

@@ -1,0 +1,51 @@
+/* Banner Container */
+.banner-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh; /* Full viewport height */
+  background-color: #ffffff; /* Optional background color */
+  padding: 0 20px; /* Ensure padding for smaller screens */
+  box-sizing: border-box;
+}
+
+/* Banner Image */
+.banner-image {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%; /* Take full width */
+}
+
+.banner-image img {
+  max-width: 100%;
+  height: auto; /* Maintain aspect ratio */
+  object-fit: cover;
+  border-radius: 0; /* Optional rounded corners */
+}
+
+/* Media Queries */
+@media screen and (max-width: 768px) {
+  .banner-container {
+    padding: 0 10px; /* Adjust padding for smaller screens */
+  }
+
+  .banner-image img {
+    object-fit: contain; /* Adjust object-fit for better visibility */
+  }
+}
+
+@media screen and (max-width: 480px) {
+  .banner-container {
+    padding: 0 px;
+    margin-left: 5px;
+    margin-right: 5px;
+  }
+
+  .banner-image img {
+    object-fit: scale-down; /* Scale down for very small screens */
+    align-items: center;
+    justify-content: center;
+    display: none;
+  }
+}

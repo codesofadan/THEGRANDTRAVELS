@@ -1,0 +1,135 @@
+/* Container Styling */
+.destinations-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 0px 0px;
+
+  text-align: center;
+  cursor: pointer;
+  background-color: #f9f9f9; /* Set background color to white */
+}
+
+/* Section Title */
+.section-title {
+  font-size: 66px;
+  padding-top: 40px;
+  font-weight: 650;
+  font-family: 'Poppins', sans-serif;
+  color: #001F54;
+  margin-bottom: 40px;
+}
+
+/* Bento Grid */
+.bento-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+  justify-content: center;
+}
+
+/* Slide-in Animation */
+@keyframes slide-in {
+  0% {
+    opacity: 0;
+    transform: translateY(50px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Bento Images */
+.bento-image {
+  object-fit: cover;
+  border-radius: 10px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease;
+  opacity: 0; /* Hidden by default */
+  transform: translateY(50px); /* Default offset */
+}
+.bento-image:hover {
+  transform: scale(1.05); /* Hover effect to scale up */
+}
+.bento-grid :hover {
+  transform: scale(1.05); /* Hover effect to scale up */
+}
+
+/* Animated Images */
+.bento-image.animate {
+  animation: slide-in 1s ease-out forwards;
+}
+
+/* Delays for Animation */
+.bento-image:nth-child(1),
+.bento-image:nth-child(2),
+.bento-image:nth-child(3) {
+  animation-delay: s;
+}
+
+.bento-image:nth-child(4),
+.bento-image:nth-child(5),
+.bento-image:nth-child(6) {
+  animation-delay: s;
+}
+
+/* Hover Effect */
+.bento-image:hover {
+  transform: scale(1.05); /* Hover effect to scale up */
+}
+
+/* Load More Button */
+.destinations-container .load-more-btn {
+  padding: 15px 30px;
+  font-family: Poppins;
+  font-size: 18px;
+  font-weight: lighter;
+  color: black;
+  background-color: #FDD017;
+  border: none;
+  border-radius: 8px;
+  margin-top: 30px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.load-more-btn:hover {
+  scale: 1;
+}
+
+.load-more-btn:active {
+  background-color: #C9A33E;
+}
+
+/* Responsive Styling */
+@media (max-width: 768px) {
+  .section-title {
+    font-size: 28px;
+  }
+
+  .bento-image {
+    width: calc(50% - 20px); /* Two columns on smaller screens */
+  }
+
+  .bento-grid {
+    gap: 15px;
+  }
+}
+
+@media (max-width: 480px) {
+  .section-title {
+    font-size: 24px;
+  }
+
+  .bento-image {
+    width: calc(100% - 20px); /* Full width for each image with padding */
+    height: 180px; /* Adjust height for mobile */
+    margin: 0 10px; /* Add padding of 10px from left and right */
+  }
+
+  .bento-grid {
+    gap: 10px;
+  }
+}
