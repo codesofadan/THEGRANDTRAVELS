@@ -78,7 +78,7 @@ const menuItems = [
       },
       {
         title: "Popup Management",
-        to: "/line",
+        to: "/popups",
         icon: <TimelineOutlinedIcon />,
       },
       {

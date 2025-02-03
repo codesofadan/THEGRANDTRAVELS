@@ -1,10 +1,13 @@
-import "./App.css";
-import { RouterProvider, createBrowserRouter } from "react-router-dom";
-import { lazy, Suspense } from "react";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { Suspense, lazy } from "react";
 import RootLayout from "./pages/Root";
 import Spinner from "./components/ui/Spinner";
-import PopupManagement from "./pages/PopupManage";
+import { AuthProvider } from "./context/AuthContext";
+import PrivateRoute from "./components/PrivateRoute";
+import PopupManagement from "./pages/PopupManager";
+import PopupManager from "./pages/PopupManager";
 
+// Lazy-loaded pages
 const ErrorPage = lazy(() => import("./pages/Error"));
 const HomePage = lazy(() => import("./pages/Home"));
 const TeamPage = lazy(() => import("./pages/Team"));
@@ -17,129 +20,42 @@ const PiePage = lazy(() => import("./pages/Pie"));
 const LinePage = lazy(() => import("./pages/Line"));
 const GeographyPage = lazy(() => import("./pages/Geography"));
 const NewUserPage = lazy(() => import("./pages/NewUser"));
-const CreateInvoicePage = lazy(() => import("./pages/CreateInvoice")); // Import the CreateInvoice component
-// Import the CreateInvoice component
+const CreateInvoicePage = lazy(() => import("./pages/CreateInvoice"));
+const LoginPage = lazy(() => import("./pages/login"));
 
 function App() {
-  const router = createBrowserRouter([
-    {
-      path: "/",
-      element: <RootLayout />,
-      errorElement: (
+  return (
+    <BrowserRouter>
+      <AuthProvider>
         <Suspense fallback={<Spinner />}>
-          <ErrorPage />
-        </Suspense>
-      ),
-      children: [
-        {
-          index: true,
-          element: (
-            <Suspense fallback={<Spinner />}>
-              <HomePage />
-            </Suspense>
-          ),
-        },
-        {
-          path: "team",
-          element: (
-            <Suspense fallback={<Spinner />}>
-              <TeamPage />
-            </Suspense>
-          ),
-        },
-        {
-          path: "contacts",
-          element: (
-            <Suspense fallback={<Spinner />}>
-              <ContactsPage />
-            </Suspense>
-          ),
-        },
-        {
-          path: "invoices",
-          element: (
-            <Suspense fallback={<Spinner />}>
-              <InvoicesPage />
-            </Suspense>
-          ),
-        },
-        {
-          path: "createinvoice",
-          element: (
-            <Suspense fallback={<Spinner />}>
-              <CreateInvoicePage />
-            </Suspense>
-          ),
-        },
-        {
-          path: "newUser",
-          element: (
-            <Suspense fallback={<Spinner />}>
-              <NewUserPage />
-            </Suspense>
-          ),
-        },
-        {
-          path: "calendar",
-          element: (
-            <Suspense fallback={<Spinner />}>
-              <CalendarPage />
-            </Suspense>
-          ),
-        },
-        {
-          path: "Agent Management",
-          element: (
-            <Suspense fallback={<Spinner />}>
-              <FaqPage />
-            </Suspense>
-          ),
-        },
-        {
-          path: "Flight Management",
-          element: (
-            <Suspense fallback={<Spinner />}>
-              <BarPage />
-            </Suspense>
-          ),
-        },
-        {
-          path: "Popups",
-          element: (
-            <Suspense fallback={<Spinner />}>
-              <PiePage />
-            </Suspense>
-          ),
-        },
-        {
-          path: "Reports",
-          element: (
-            <Suspense fallback={<Spinner />}>
-              <LinePage />
-            </Suspense>
-          ),
-        },
-        {
-          path: "Booking Management",
-          element: (
-            <Suspense fallback={<Spinner />}>
-              <GeographyPage />
-            </Suspense>
-          ),
-        },
-        {
-          path: "popupmanage",
-          element: (
-            <Suspense fallback={<Spinner />}>
-              <PopupManagement />
-            </Suspense>
-          ),
-        },
-      ],
-    },
-  ]);
+          <Routes>
+            {/* Redirect root to / if authenticated */}
+            <Route path="/" element={<PrivateRoute path="/" component={RootLayout} />}>
+              <Route index element={<PrivateRoute path="/" component={HomePage} />} />
+              <Route path="team" element={<PrivateRoute path="team" component={TeamPage} />} />
+              <Route path="contacts" element={<PrivateRoute path="contacts" component={ContactsPage} />} />
+              <Route path="invoices" element={<PrivateRoute path="invoices" component={InvoicesPage} />} />
+              <Route path="createinvoice" element={<PrivateRoute path="createinvoice" component={CreateInvoicePage} />} />
+              <Route path="newUser" element={<PrivateRoute path="newUser" component={NewUserPage} />} />
+              <Route path="calendar" element={<PrivateRoute path="calendar" component={CalendarPage} />} />
+              <Route path="Agent Management" element={<PrivateRoute path="Agent Management" component={FaqPage} />} />
+              <Route path="Flight Management" element={<PrivateRoute path="Flight Management" component={BarPage} />} />
+              <Route path="Popups" element={<PrivateRoute path="Popups" component={PopupManager} />} />
+              <Route path="Reports" element={<PrivateRoute path="Reports" component={LinePage} />} />
+              <Route path="Booking Management" element={<PrivateRoute path="Booking Management" component={GeographyPage} />} />
+              <Route path="popupmanage" element={<PrivateRoute path="popupmanage" component={PopupManagement} />} />
+            </Route>
 
-  return <RouterProvider router={router} />;
+            {/* Login Route */}
+            <Route path="/login" element={<LoginPage />} />
+
+            {/* Error Page */}
+            <Route path="*" element={<ErrorPage />} />
+          </Routes>
+        </Suspense>
+      </AuthProvider>
+    </BrowserRouter>
+  );
 }
 
 export default App;
