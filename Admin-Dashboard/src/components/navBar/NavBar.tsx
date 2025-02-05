@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Box, Slide, useScrollTrigger, useTheme } from "@mui/material";
 import Toolbar from "@mui/material/Toolbar";
 import IconButton from "@mui/material/IconButton";
@@ -19,11 +19,13 @@ import Tooltip from "@mui/material/Tooltip";
 import { AppBar } from "../../theme/ThemeComponents";
 import DropMenuIcon from "./DropMenuIcon";
 import SearchInput from "./SearchInput";
+import { io } from 'socket.io-client';
 
 type NavBarProps = {
   open: boolean;
   handleDrawer: () => void;
 };
+
 const accountMenu = [
   {
     title: "Profile",
@@ -40,43 +42,10 @@ const accountMenu = [
   { title: "Settings", icon: <Settings fontSize="small" /> },
   { title: "Logout", icon: <Logout fontSize="small" /> },
 ];
-const notificationsMenu = [
-  {
-    title: "New Customers are waiting ...",
-    icon: (
-      <Badge variant="dot" color="error">
-        <NotificationsOutlinedIcon />
-      </Badge>
-    ),
-  },
-  {
-    title: "Agent has been assigned ...",
-    icon: (
-      <Badge variant="dot" color="error">
-        <NotificationsOutlinedIcon />
-      </Badge>
-    ),
-  },
-  {
-    title: "Open a new ticket ...",
-    icon: (
-      <Badge variant="dot" color="error">
-        <NotificationsOutlinedIcon />
-      </Badge>
-    ),
-  },
-  {
-    title: "Payment has been received ...",
-    icon: (
-      <Badge variant="dot" color="error">
-        <NotificationsOutlinedIcon />
-      </Badge>
-    ),
-  },
-];
+
 const messagesMenu = [
   {
-    title: "This is simple message from ...",
+    title: "Message 1",
     icon: (
       <Badge variant="dot" color="error">
         <EmailOutlinedIcon />
@@ -84,30 +53,34 @@ const messagesMenu = [
     ),
   },
   {
-    title: "This is simple message from ...",
+    title: "Message 2",
     icon: (
       <Badge variant="dot" color="error">
         <EmailOutlinedIcon />
       </Badge>
     ),
   },
-  {
-    title: "This is simple message from ...",
-    icon: (
-      <Badge variant="dot" color="error">
-        <EmailOutlinedIcon />
-      </Badge>
-    ),
-  },
+  // Add more messages as needed
 ];
 
 const NavBar = ({ open, handleDrawer }: NavBarProps) => {
   const [isSearchOpen, setIsSearchOpen] = useState(false);
-
+  const [notifications, setNotifications] = useState([]);
   const theme = useTheme();
   const colorMode = useThemeMode();
-
   const trigger = useScrollTrigger();
+
+  useEffect(() => {
+    const socket = io('http://localhost:5000');
+
+    socket.on('notification', (notification) => {
+      setNotifications((prevNotifications) => [...prevNotifications, notification]);
+    });
+
+    return () => {
+      socket.off('notification');
+    };
+  }, []);
 
   const openSearchHandler = () => {
     setIsSearchOpen(true);
@@ -115,6 +88,15 @@ const NavBar = ({ open, handleDrawer }: NavBarProps) => {
   const closeSearchHandler = () => {
     setIsSearchOpen(false);
   };
+
+  const notificationsMenu = notifications.map((notification, index) => ({
+    title: notification.message,
+    icon: (
+      <Badge variant="dot" color="error" key={index}>
+        <NotificationsOutlinedIcon />
+      </Badge>
+    ),
+  }));
 
   return (
     <Slide appear={false} direction="down" in={!trigger}>
@@ -187,9 +169,7 @@ const NavBar = ({ open, handleDrawer }: NavBarProps) => {
 
               <Box display="flex">
                 <Tooltip
-                  title={
-                    theme.palette.mode === "dark" ? "Light Mode" : "Dark Mode"
-                  }
+                  title={theme.palette.mode === "dark" ? "Light Mode" : "Dark Mode"}
                 >
                   <IconButton
                     onClick={colorMode?.toggleColorMode}
@@ -221,7 +201,7 @@ const NavBar = ({ open, handleDrawer }: NavBarProps) => {
                   toolTip="Notifications"
                   id="notifications-menu"
                   mainIcon={
-                    <Badge badgeContent={4} color="error">
+                    <Badge badgeContent={notifications.length} color="error">
                       <NotificationsOutlinedIcon sx={{ fontSize: "24px" }} />
                     </Badge>
                   }

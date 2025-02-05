@@ -6,6 +6,10 @@ import { AuthProvider } from "./context/AuthContext";
 import PrivateRoute from "./components/PrivateRoute";
 import PopupManagement from "./pages/PopupManager";
 import PopupManager from "./pages/PopupManager";
+import CQM from "./pages/CQM";
+import FlightManagement from "./pages/FlightManagement";
+import AgentManagement from "./pages/AgentManagement";
+import BookingManagement from "./pages/BookingManagement";
 
 // Lazy-loaded pages
 const ErrorPage = lazy(() => import("./pages/Error"));
@@ -44,6 +48,10 @@ function App() {
               <Route path="Reports" element={<PrivateRoute path="Reports" component={LinePage} />} />
               <Route path="Booking Management" element={<PrivateRoute path="Booking Management" component={GeographyPage} />} />
               <Route path="popupmanage" element={<PrivateRoute path="popupmanage" component={PopupManagement} />} />
+              <Route path="CQM" element={<PrivateRoute path="CQM" component={CQM} />} />
+              <Route path="flightsmanage" element={<PrivateRoute path="flightsmanage" component={FlightManagement} />} />
+              <Route path="agentsmanage" element={<PrivateRoute path="agentsmanage" component={AgentManagement} />} />
+              <Route path="bookings" element={<PrivateRoute path="bookings" component={BookingManagement} />} />
             </Route>
 
             {/* Login Route */}

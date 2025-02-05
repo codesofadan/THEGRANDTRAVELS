@@ -1,29 +1,44 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { useForm, Controller } from "react-hook-form";
-import { Box, Button, TextField, Typography, MenuItem } from "@mui/material";
+import { Box, Button, TextField, Typography, MenuItem, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper } from "@mui/material";
 import jsPDF from "jspdf";
 import autoTable from "jspdf-autotable";
+import axios from "axios";
+
+interface FormData {
+  name: string;
+  email: string;
+  phone: string;
+  airline: string;
+  flightNumber: string;
+  flightClass: string;
+  departure: string;
+  destination: string;
+  departureTime: string;
+  arrivalTime: string;
+  date: string;
+  seatNumber: string;
+  price: number;
+}
 
 const CreateInvoice: React.FC = () => {
   const { handleSubmit, control } = useForm<FormData>();
+  const [invoices, setInvoices] = useState([]);
 
-  interface FormData {
-    name: string;
-    email: string;
-    phone: string;
-    airline: string;
-    flightNumber: string;
-    flightClass: string;
-    departure: string;
-    destination: string;
-    departureTime: string;
-    arrivalTime: string;
-    date: string;
-    seatNumber: string;
-    price: number;
-  }
+  useEffect(() => {
+    fetchInvoices();
+  }, []);
 
-  const generatePDF = (formData: FormData): void => {
+  const fetchInvoices = async () => {
+    try {
+      const response = await axios.get('http://localhost:5000/api/invoices/all');
+      setInvoices(response.data);
+    } catch (error) {
+      console.error('Error fetching invoices:', error);
+    }
+  };
+
+  const generatePDF = async (formData: FormData): Promise<void> => {
     try {
       const doc = new jsPDF();
 
@@ -94,7 +109,22 @@ const CreateInvoice: React.FC = () => {
       doc.text(footerText, 105, lastY + 20, { align: "center" });
 
       // Save PDF
+      const pdfBlob = doc.output('blob');
+      const formDataToUpload = new FormData();
+      formDataToUpload.append('invoice', pdfBlob, 'invoice.pdf');
+
+      // Upload PDF to server
+      const response = await axios.post('http://localhost:5000/upload-invoice', formDataToUpload, {
+        headers: {
+          'Content-Type': 'multipart/form-data',
+        },
+      });
+
+      console.log('Invoice uploaded:', response.data.invoiceUrl);
       doc.save("invoice.pdf");
+
+      // Fetch updated invoices list
+      fetchInvoices();
     } catch (error) {
       console.error("Error generating PDF:", error);
     }
@@ -105,7 +135,7 @@ const CreateInvoice: React.FC = () => {
   };
 
   return (
-    <Box sx={{ maxWidth: 600, mx: "auto", mt: 4 }}>
+    <Box sx={{ maxWidth: 800, mx: "auto", mt: 4 }}>
       <Typography variant="h4" component="h1" gutterBottom>
         Create Invoice
       </Typography>
@@ -222,6 +252,38 @@ const CreateInvoice: React.FC = () => {
           Create Invoice
         </Button>
       </form>
+
+      <Typography variant="h4" component="h2" gutterBottom sx={{ mt: 4 }}>
+        Invoices
+      </Typography>
+      <TableContainer component={Paper}>
+        <Table>
+          <TableHead>
+            <TableRow>
+              <TableCell>Name</TableCell>
+              <TableCell>Email</TableCell>
+              <TableCell>Phone</TableCell>
+              <TableCell>Departure</TableCell>
+              <TableCell>Destination</TableCell>
+              <TableCell>Date</TableCell>
+              <TableCell>Price</TableCell>
+            </TableRow>
+          </TableHead>
+          <TableBody>
+            {invoices.map((invoice) => (
+              <TableRow key={invoice._id}>
+                <TableCell>{invoice.name}</TableCell>
+                <TableCell>{invoice.email}</TableCell>
+                <TableCell>{invoice.phone}</TableCell>
+                <TableCell>{invoice.departure}</TableCell>
+                <TableCell>{invoice.destination}</TableCell>
+                <TableCell>{new Date(invoice.date).toLocaleDateString()}</TableCell>
+                <TableCell>${invoice.price.toFixed(2)}</TableCell>
+              </TableRow>
+            ))}
+          </TableBody>
+        </Table>
+      </TableContainer>
     </Box>
   );
 };

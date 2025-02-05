@@ -8,7 +8,13 @@ const flightSchema = new mongoose.Schema({
   departure_time: Date,
   arrival_time: Date,
   status: String,
-  // Add other fields as needed
+  duration: String,
+  logoUrl: String,
+  price: Number,
+  createdAt: {
+    type: Date,
+    default: Date.now,
+  },
 });
 
 const Flight = mongoose.model('Flight', flightSchema);

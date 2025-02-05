@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import emailjs from 'emailjs-com';
+import { createQuery } from '../../services/api'; // Import the createQuery function
 import './BookingPage.css';
 
 const BookingPage = () => {
@@ -22,23 +22,44 @@ const BookingPage = () => {
     travelDates: '',
     numberOfTravelers: '',
   });
+  const [responseMessage, setResponseMessage] = useState('');
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-
-    emailjs.send('service_smzo6up', 'template_ynjmnnn', formData, '2AP-WeNe8vgunTEcH')
-      .then((result) => {
-        console.log(result.text);
-        alert('Details submitted successfully!');
-      }, (error) => {
-        console.log(error.text);
-        alert('An error occurred, please try again.');
+    try {
+      const query = {
+        name: formData.name || 'Booking Query',
+        email: formData.email || 'no-email@example.com',
+        message: JSON.stringify(formData),
+      };
+      await createQuery(query);
+      setResponseMessage('Details submitted successfully!');
+      setFormData({
+        departureDate: '',
+        returnDate: '',
+        destination: '',
+        departureFrom: '',
+        passengers: '',
+        class: 'Economy',
+        isAdult: 'Yes',
+        preferredAirline: '',
+        checkInDate: '',
+        checkOutDate: '',
+        location: '',
+        guests: '',
+        roomType: 'Single',
+        packageType: '',
+        travelDates: '',
+        numberOfTravelers: '',
       });
+    } catch (error) {
+      setResponseMessage('An error occurred, please try again.');
+    }
   };
 
   const renderContactSection = () => {
@@ -48,28 +69,28 @@ const BookingPage = () => {
           <div className="contact-details">
             <h3>Flight Booking Details</h3>
             <label>Departure Date:</label>
-            <input type="date" name="departureDate" onChange={handleInputChange} />
+            <input type="date" name="departureDate" value={formData.departureDate} onChange={handleInputChange} />
             <label>Return Date:</label>
-            <input type="date" name="returnDate" onChange={handleInputChange} />
+            <input type="date" name="returnDate" value={formData.returnDate} onChange={handleInputChange} />
             <label>Destination:</label>
-            <input type="text" name="destination" placeholder="Enter destination" onChange={handleInputChange} />
+            <input type="text" name="destination" placeholder="Enter destination" value={formData.destination} onChange={handleInputChange} />
             <label>Departure From:</label>
-            <input type="text" name="departureFrom" placeholder="Enter departure location" onChange={handleInputChange} />
+            <input type="text" name="departureFrom" placeholder="Enter departure location" value={formData.departureFrom} onChange={handleInputChange} />
             <label>Passengers:</label>
-            <input type="number" name="passengers" min="1" onChange={handleInputChange} />
+            <input type="number" name="passengers" min="1" value={formData.passengers} onChange={handleInputChange} />
             <label>Class:</label>
-            <select name="class" onChange={handleInputChange}>
+            <select name="class" value={formData.class} onChange={handleInputChange}>
               <option>Economy</option>
               <option>Business</option>
               <option>First</option>
             </select>
             <label>18+:</label>
-            <select name="isAdult" onChange={handleInputChange}>
+            <select name="isAdult" value={formData.isAdult} onChange={handleInputChange}>
               <option>Yes</option>
               <option>No</option>
             </select>
             <label>Preferred Airline:</label>
-            <input type="text" name="preferredAirline" placeholder="Enter airline" onChange={handleInputChange} />
+            <input type="text" name="preferredAirline" placeholder="Enter airline" value={formData.preferredAirline} onChange={handleInputChange} />
           </div>
         );
       case 'hotels':
@@ -77,15 +98,15 @@ const BookingPage = () => {
           <div className="contact-details">
             <h3>Hotel Booking Details</h3>
             <label>Check-in Date:</label>
-            <input type="date" name="checkInDate" onChange={handleInputChange} />
+            <input type="date" name="checkInDate" value={formData.checkInDate} onChange={handleInputChange} />
             <label>Check-out Date:</label>
-            <input type="date" name="checkOutDate" onChange={handleInputChange} />
+            <input type="date" name="checkOutDate" value={formData.checkOutDate} onChange={handleInputChange} />
             <label>Location:</label>
-            <input type="text" name="location" placeholder="Enter location" onChange={handleInputChange} />
+            <input type="text" name="location" placeholder="Enter location" value={formData.location} onChange={handleInputChange} />
             <label>Guests:</label>
-            <input type="number" name="guests" min="1" onChange={handleInputChange} />
+            <input type="number" name="guests" min="1" value={formData.guests} onChange={handleInputChange} />
             <label>Room Type:</label>
-            <select name="roomType" onChange={handleInputChange}>
+            <select name="roomType" value={formData.roomType} onChange={handleInputChange}>
               <option>Single</option>
               <option>Double</option>
               <option>Suite</option>
@@ -107,13 +128,13 @@ const BookingPage = () => {
           <div className="contact-details">
             <h3>Package Booking Details</h3>
             <label>Package Type:</label>
-            <input type="text" name="packageType" placeholder="Enter package type" onChange={handleInputChange} />
+            <input type="text" name="packageType" placeholder="Enter package type" value={formData.packageType} onChange={handleInputChange} />
             <label>Travel Dates:</label>
-            <input type="date" name="travelDates" onChange={handleInputChange} />
+            <input type="date" name="travelDates" value={formData.travelDates} onChange={handleInputChange} />
             <label>Destination:</label>
-            <input type="text" name="destination" placeholder="Enter destination" onChange={handleInputChange} />
+            <input type="text" name="destination" placeholder="Enter destination" value={formData.destination} onChange={handleInputChange} />
             <label>Number of Travelers:</label>
-            <input type="number" name="numberOfTravelers" min="1" onChange={handleInputChange} />
+            <input type="number" name="numberOfTravelers" min="1" value={formData.numberOfTravelers} onChange={handleInputChange} />
           </div>
         );
       default:
@@ -140,6 +161,7 @@ const BookingPage = () => {
         {renderContactSection()}
         <button type="submit" className="submit-button">Submit Details</button>
       </form>
+      {responseMessage && <p className="response-message">{responseMessage}</p>}
       <div className="caution-note">
         <span>⚠</span>
         You will be contacted by our team within 12 hours.

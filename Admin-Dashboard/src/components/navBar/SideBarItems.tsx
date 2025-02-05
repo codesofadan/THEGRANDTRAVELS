@@ -57,8 +57,8 @@ const menuItems = [
         icon: <CalendarTodayOutlinedIcon />,
       },
       {
-        title: "FLight Management",
-        to: "/faq",
+        title: "Booking Management",
+        to: "/bookings",
         icon: <HelpOutlineOutlinedIcon />,
       },
     ],
@@ -67,25 +67,26 @@ const menuItems = [
     
     items: [
       {
-        title: "Customer Records",
-        to: "/bar",
-        icon: <BarChartOutlinedIcon />,
-      },
-      {
-        title: "Bookings",
-        to: "/pie",
-        icon: <PieChartOutlineOutlinedIcon />,
-      },
-      {
         title: "Popup Management",
         to: "/popups",
         icon: <TimelineOutlinedIcon />,
       },
       {
         title: "Agent Management",
-        to: "/geography",
+        to: "/agentsmanage",
         icon: <MapOutlinedIcon />,
       },
+      {
+        title: "Client Query Management",
+        to: "/CQM",
+        icon: <MapOutlinedIcon />,
+      },
+      {
+        title: "Flight Management",
+        to: "/flightsmanage",
+        icon: <MapOutlinedIcon />,
+      },
+
     ],
   },
 ];

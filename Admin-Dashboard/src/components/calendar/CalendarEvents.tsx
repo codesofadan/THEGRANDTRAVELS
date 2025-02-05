@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import FullCalendar from "@fullcalendar/react";
 import dayGridPlugin from "@fullcalendar/daygrid";
 import timeGridPlugin from "@fullcalendar/timegrid";
@@ -23,7 +23,7 @@ import {
 } from "@fullcalendar/core/index.js";
 import DeleteEventModal from "../modals/DeleteEventModal";
 import AddEventModal from "../modals/AddEventModal";
-import { randomId } from "@mui/x-data-grid-generator";
+import axios from "axios";
 
 const CalendarEvents = () => {
   const theme = useTheme();
@@ -37,22 +37,62 @@ const CalendarEvents = () => {
 
   const isLargeMobile = useMediaQuery("(max-width:600px)");
 
+  useEffect(() => {
+    fetchEvents();
+  }, []);
+
+  const fetchEvents = async () => {
+    try {
+      const response = await axios.get("http://localhost:5000/api/events");
+      const events = response.data.map((event: any) => ({
+        id: event._id,
+        title: event.title,
+        start: event.start,
+        end: event.end,
+        allDay: event.allDay,
+      }));
+      setCurrentEvents(events);
+    } catch (error) {
+      console.error("Error fetching events:", error);
+    }
+  };
+
   const handleDateClick = (info: DateClickArg) => {
     setSelectedDate(info);
     setAddEventDialogOpen(true);
   };
-  const handleAddEvent = (title: string) => {
+
+  const handleAddEvent = async (title: string) => {
     const calendarApi = selectedDate?.view.calendar;
     calendarApi?.unselect();
 
     if (title && selectedDate) {
-      const id = randomId();
-      calendarApi?.addEvent({
-        id: id,
-        title: title,
-        start: selectedDate.dateStr,
-        allDay: selectedDate.allDay,
-      });
+      try {
+        const response = await axios.post("http://localhost:5000/api/events", {
+          title,
+          start: selectedDate.dateStr,
+          allDay: selectedDate.allDay,
+        });
+        const newEvent = response.data;
+        calendarApi?.addEvent({
+          id: newEvent._id,
+          title: newEvent.title,
+          start: newEvent.start,
+          allDay: newEvent.allDay,
+        });
+        setCurrentEvents((prevEvents) => [
+          ...prevEvents,
+          {
+            id: newEvent._id,
+            title: newEvent.title,
+            start: newEvent.start,
+            end: newEvent.end,
+            allDay: newEvent.allDay,
+          },
+        ]);
+      } catch (error) {
+        console.error("Error adding event:", error);
+      }
     }
 
     setAddEventDialogOpen(false);
@@ -66,16 +106,29 @@ const CalendarEvents = () => {
     setSelectedEvent(selected);
     setIsDeleteEventDialogOpen(true);
   };
-  const handleConfirmDelete = () => {
+
+  const handleConfirmDelete = async () => {
     if (selectedEvent) {
-      selectedEvent.event.remove();
+      try {
+        await axios.delete(`http://localhost:5000/api/events/${selectedEvent.event.id}`);
+        selectedEvent.event.remove();
+        setCurrentEvents((prevEvents) =>
+          prevEvents.filter((event) => event.id !== selectedEvent.event.id)
+        );
+      } catch (error) {
+        console.error("Error deleting event:", error);
+      }
     }
     setIsDeleteEventDialogOpen(false);
   };
 
   const handleEvents = (events: EventApi[]) => {
-    setCurrentEvents(events);
+    // Check if the events have actually changed before updating the state
+    if (events.length !== currentEvents.length || !events.every((event, index) => event.id === currentEvents[index].id)) {
+      setCurrentEvents(events);
+    }
   };
+
   const handleCloseModal = () => {
     setIsDeleteEventDialogOpen(false);
   };
@@ -185,19 +238,7 @@ const CalendarEvents = () => {
               dateClick={handleDateClick}
               eventClick={handleEventClick}
               eventsSet={handleEvents}
-              initialEvents={[
-                {
-                  id: "12315",
-                  title: "All-day event",
-                  date: new Date().toISOString().replace(/T.*$/, ""),
-                },
-                {
-                  id: "5123",
-                  title: "Timed event",
-                  date:
-                    new Date().toISOString().replace(/T.*$/, "") + "T24:00:00",
-                },
-              ]}
+              events={currentEvents}
             />
           </Paper>
         </Box>

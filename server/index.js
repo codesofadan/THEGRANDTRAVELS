@@ -3,10 +3,15 @@ const cors = require('cors');
 const dotenv = require('dotenv');
 const mongoose = require('mongoose');
 const path = require('path');
-const multer = require('multer'); // Add multer for file uploads
+const multer = require('multer');
 const flightsRoutes = require('./routes/flightsRoutes');
-const authRoutes = require('./routes/authRoutes'); // Import the signup route
-const popupRoutes = require('./routes/popupRoutes'); // Import the popup routes
+const authRoutes = require('./routes/authRoutes');
+const popupRoutes = require('./routes/popupRoutes');
+const queryRoutes = require('./routes/queryRoutes');
+const agentRoutes = require('./routes/agentRoutes');
+const bookingRoutes = require('./routes/bookingRoutes');
+const calendarEventRoutes = require('./routes/calendarEventRoutes');
+const invoiceRoutes = require('./routes/invoiceRoutes'); // Import the invoice routes
 
 dotenv.config();
 
@@ -15,6 +20,7 @@ const app = express();
 // Middleware
 app.use(express.json());
 app.use("/uploads", express.static("uploads")); // Serve uploaded images
+app.use("/invoices", express.static("invoices")); // Serve uploaded invoices
 
 // CORS configuration
 const corsOptions = {
@@ -23,7 +29,7 @@ const corsOptions = {
 };
 app.use(cors(corsOptions));
 
-// Multer storage setup
+// Multer storage setup for popup images
 const storage = multer.diskStorage({
   destination: "uploads/",
   filename: (req, file, cb) => {
@@ -33,6 +39,16 @@ const storage = multer.diskStorage({
 
 const upload = multer({ storage });
 
+// Multer storage setup for invoices
+const invoiceStorage = multer.diskStorage({
+  destination: "invoices/",
+  filename: (req, file, cb) => {
+    cb(null, `${Date.now()}-${file.originalname}`);
+  },
+});
+
+const uploadInvoice = multer({ storage: invoiceStorage });
+
 // API to upload image
 app.post("/upload-popup", upload.single("popupImage"), (req, res) => {
   res.json({ imageUrl: `http://localhost:5000/uploads/${req.file.filename}` });
@@ -41,6 +57,11 @@ app.post("/upload-popup", upload.single("popupImage"), (req, res) => {
 // API to fetch latest popup image
 app.get("/get-popup", (req, res) => {
   res.json({ imageUrl: `http://localhost:5000/uploads/popup-image.jpg` });
+});
+
+// API to upload invoice
+app.post("/upload-invoice", uploadInvoice.single("invoice"), (req, res) => {
+  res.json({ invoiceUrl: `http://localhost:5000/invoices/${req.file.filename}` });
 });
 
 // Serve static files in production
@@ -53,9 +74,14 @@ if (process.env.NODE_ENV === "production") {
 }
 
 // Routes
-app.use('/api/flights', flightsRoutes); // Use the flights route
-app.use("/api/auth", authRoutes); // Use the auth routes for authentication
-app.use("/api/popup", popupRoutes); // Use the popup routes
+app.use('/api/flights', flightsRoutes);
+app.use("/api/auth", authRoutes);
+app.use("/api/popup", popupRoutes);
+app.use('/api', queryRoutes);
+app.use('/api', agentRoutes);
+app.use('/api', bookingRoutes);
+app.use('/api', calendarEventRoutes);
+app.use('/api', invoiceRoutes); // Use the invoice routes
 
 // Connect to MongoDB
 mongoose

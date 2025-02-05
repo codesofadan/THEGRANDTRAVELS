@@ -52,6 +52,12 @@
   "jsonwebtoken": "^9.0.2",
   
     
+  "jspdf": "^2.5.2",
+  
+    
+  "jspdf-autotable": "^3.8.4",
+  
+    
   "mongodb": "^6.12.0",
   
     
@@ -70,7 +76,10 @@
   "passport-jwt": "^4.0.1",
   
     
-  "path": "^0.12.7"
+  "path": "^0.12.7",
+  
+    
+  "socket.io": "^4.8.1"
   
   },
   
