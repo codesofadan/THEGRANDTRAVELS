@@ -15,7 +15,7 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
 
   const login = (username: string, password: string) => {
     // Update authentication logic
-    if (username === "adandevelops" && password === "12345") {
+    if (username === "admin@grandtravels" && password === "admin") {
       setIsAuthenticated(true);
       navigate("/"); // Navigate to the root path
     } else {
