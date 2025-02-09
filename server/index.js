@@ -24,7 +24,7 @@ app.use("/invoices", express.static("invoices")); // Serve uploaded invoices
 
 // CORS configuration
 const corsOptions = {
-  origin: ['http://localhost:5173', 'http://localhost:5174', 'https://thegrandtravelfrontend.vercel.app', 'http://localhost:5175'],
+  origin: ['http://localhost:5173', 'http://localhost:5174', 'https://thegrandtravelsfrontend.vercel.app', 'http://localhost:5175'],
   optionsSuccessStatus: 200,
 };
 app.use(cors(corsOptions));
