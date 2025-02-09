@@ -24,7 +24,7 @@ app.use("/invoices", express.static("invoices")); // Serve uploaded invoices
 
 // CORS configuration
 const corsOptions = {
-  origin: ['https://thegrandtravelsfrontend.vercel.app'],
+  origin: ['http://localhost:5173', 'http://localhost:5174', 'https://thegrandtravelsfrontend.vercel.app', 'http://localhost:5175'],
   optionsSuccessStatus: 200,
 };
 app.use(cors(corsOptions));
@@ -51,17 +51,17 @@ const uploadInvoice = multer({ storage: invoiceStorage });
 
 // API to upload image
 app.post("/upload-popup", upload.single("popupImage"), (req, res) => {
-  res.json({ imageUrl: `https://thegrandtravelsbackend.vercel.app/uploads/${req.file.filename}` });
+  res.json({ imageUrl: `http://localhost:5000/uploads/${req.file.filename}` });
 });
 
 // API to fetch latest popup image
 app.get("/get-popup", (req, res) => {
-  res.json({ imageUrl: `https://thegrandtravelsbackend.vercel.app/uploads/popup-image.jpg` });
+  res.json({ imageUrl: `http://localhost:5000/uploads/popup-image.jpg` });
 });
 
 // API to upload invoice
 app.post("/upload-invoice", uploadInvoice.single("invoice"), (req, res) => {
-  res.json({ invoiceUrl: `https://thegrandtravelsbackend.vercel.app/invoices/${req.file.filename}` });
+  res.json({ invoiceUrl: `http://localhost:5000/invoices/${req.file.filename}` });
 });
 
 // Serve static files in production
