@@ -68,9 +68,9 @@
   margin-top: 20px;
 }
 
-.book-button {
-  background-color: #007BFF;
-  color: white;
+.destination-page .book-button {
+  background-color: #FDD017;
+  color: black;
   padding: 10px 20px;
   border: none;
   border-radius: px;

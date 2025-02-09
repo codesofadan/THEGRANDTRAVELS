@@ -1,8 +1,9 @@
 /* Search Bar Styles */
 .search-bar {
-  max-width: 55%; /* Ensure it fits within smaller screens */
+  max-width: 85%; /* Ensure it fits within smaller screens */
   margin: auto;
   margin-top: 10px;
+  margin-bottom: 20px; /* Added margin-bottom */
   padding: 20px;
   background-color: rgba(255, 255, 255, 0.689); /* Transparent background with 50% opacity */
   border-radius: 0; /* Set border-radius to 0 */
@@ -194,6 +195,10 @@
 
 /* Responsive Adjustments */
 @media (max-width: 768px) {
+  .search-bar {
+    max-width: 90%; /* Ensure it fits within smaller screens */
+  }
+
   .form-fields {
     flex-direction: column; /* Stack items vertically */
     gap: 10px; /* Reduce gap for smaller screens */
@@ -213,7 +218,10 @@
   .search-bar {
     padding: 10px; /* Further reduce padding for smaller screens */
     width: 100%; /* Ensure it fits within the screen */
-    margin-bottom: 20px;
+    margin-bottom: 80px;
+    margin-left: 20px;
+    margin-right: 20px;
+    border-radius: 8px;
   }
 
   .tabs {
@@ -234,12 +242,14 @@
     height: 35px; /* Reduce height for smaller screens */
     font-size: 12px; /* Smaller font size */
     padding: 5px; /* Reduce padding */
+    border-radius: 5px;
   }
 
   .search-button {
     width: 100%; /* Button spans full width */
     padding: 10px; /* Reduce padding */
     font-size: 12px; /* Smaller font size */
+    border-radius: 5px;
   }
 
   /* Ensure expanded fields retain their original styles */

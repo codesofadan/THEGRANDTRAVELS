@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from "react-router-dom";
 import "./FlightDeals.css";
 
 const flightData = [
@@ -23,7 +24,9 @@ const FlightCard = ({ city, dates, price, image }) => (
       <p className="flight-dates">{dates}</p>
       <h3 className="flight-city">{city}</h3>
       <p className="flight-price">Starting at <span>{price}</span></p>
-      <button className="book-button">Book Now</button>
+      <Link to="/bookings">
+        <button className="book-button">Book Now</button>
+      </Link>
     </div>
   </div>
 );

@@ -6,7 +6,7 @@ const testimonialsData = [
     id: 1,
     name: "Aneeka H",
     country: "UK",
-    testimonial: "The entire team go above and beyond to make the whole process of travelling as smooth as possible.",
+    testimonial: "The entire team go above and beyond to make the trip amazing",
     image: "https://lh3.googleusercontent.com/a-/ALV-UjVx7iNV4IIgqVh7x1PL5p2jR7W5feVD78-cvNxIyXUzkTyuz86Qyw=w75-h75-p-rp-mo-ba5-br100",
   },
   {

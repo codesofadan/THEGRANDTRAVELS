@@ -1,7 +1,9 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import './HotelsSec.css';
 
 const hotels = [
+  // ...existing code...
   {
     image: 'https://images.pexels.com/photos/261102/pexels-photo-261102.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1', // Replace with actual image paths
     name: 'Hotel Sunshine',
@@ -42,7 +44,7 @@ const HotelsSec = () => {
               <p className="hotel-price">{hotel.price}</p>
               <p className="hotel-location">{hotel.location}</p>
               <p className="hotel-description">{hotel.description}</p>
-              <button className="book-button">Book Now</button>
+              <Link to="/bookings" className="book-button">Book Now</Link>
             </div>
           </div>
         ))}

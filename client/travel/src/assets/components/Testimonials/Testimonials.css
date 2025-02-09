@@ -91,6 +91,7 @@
   .testimonial-card {
     width: 200px;
     padding: 20px; /* Adjust padding for smaller screens */
+    max-height: 300px;
   }
 
   .testimonial-card img {

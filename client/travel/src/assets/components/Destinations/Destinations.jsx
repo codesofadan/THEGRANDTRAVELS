@@ -1,4 +1,5 @@
 import React, { useEffect } from "react";
+import { Link } from "react-router-dom";
 import "./Destinations.css";
 
 const Destinations = () => {
@@ -45,7 +46,9 @@ const Destinations = () => {
           />
         ))}
       </div>
-      <button className="load-more-btn">Load More</button>
+      <Link to="/destinations">
+        <button className="load-more-btn">Load More</button>
+      </Link>
     </div>
   );
 };
