@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const API_BASE = "https://thegrandtravelsbackend.vercel.app/api";
+const API_BASE = "https://thegrandtravelsbackend.vercel.app";
 
 // Function to fetch the latest popup image
 export const fetchPopupImage = async () => {
