@@ -29,16 +29,6 @@ const menuItems = [
   {
     items: [
       {
-        title: "Manage Team",
-        to: "/team",
-        icon: <PeopleOutlinedIcon />,
-      },
-      {
-        title: "Contacts",
-        to: "/contacts",
-        icon: <ContactsOutlinedIcon />,
-      },
-      {
         title: "Invoices",
         to: "/invoices",
         icon: <ReceiptOutlinedIcon />,
@@ -48,16 +38,6 @@ const menuItems = [
   {
     items: [
       {
-        title: "User Management",
-        to: "/newUser",
-        icon: <PersonOutlinedIcon />,
-      },
-      {
-        title: "Calendar",
-        to: "/calendar",
-        icon: <CalendarTodayOutlinedIcon />,
-      },
-      {
         title: "Booking Management",
         to: "/bookings",
         icon: <CalendarTodayOutlinedIcon />,
@@ -66,16 +46,6 @@ const menuItems = [
   },
   {
     items: [
-      {
-        title: "Popup Management",
-        to: "/popups",
-        icon: <TimelineOutlinedIcon />,
-      },
-      {
-        title: "Agent Management",
-        to: "/agentsmanage",
-        icon: <PeopleOutlinedIcon />,
-      },
       {
         title: "Client Query Management",
         to: "/CQM",

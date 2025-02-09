@@ -35,7 +35,7 @@ const SideBar = ({ open, handleDrawer }: SideBarProps) => {
             display: open ? "block" : "none",
           }}
         >
-          Admin
+          Agent 
         </Typography>
         <IconButton onClick={handleDrawer}>
           {open ? <ChevronLeftIcon /> : <ChevronRightIcon />}
