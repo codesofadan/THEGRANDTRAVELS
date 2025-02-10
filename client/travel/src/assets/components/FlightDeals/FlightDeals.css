@@ -149,6 +149,7 @@
 
 .flight-deals .book-button:hover {
   background-color: #002244; /* Darker Navy Blue */
+  color: aliceblue;
   transform: translateY(-2px);
 }
 
@@ -187,5 +188,16 @@
 @media (max-width: 480px) {
   .flight-grid {
     grid-template-columns: 1fr; /* 1 card in a row for extra small screens */
+  }
+  .flight-city {
+    color: #001F54;
+    margin: 10px 0;
+  }
+  .flight-deals .flight-price {
+    font-size: 1.2rem;
+    color: #ffcc00;
+  }
+  .flight-price span {
+    color: #001F54;
   }
 }
