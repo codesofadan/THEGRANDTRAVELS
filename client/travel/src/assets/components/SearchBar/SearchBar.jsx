@@ -998,7 +998,6 @@ const SearchBar = () => {
   const renderFlightHotelFields = () => (
     <>
       {renderFlightFields()}
-      {renderHotelFields()}
     </>
   );
 
