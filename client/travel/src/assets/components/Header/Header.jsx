@@ -38,7 +38,6 @@ const Header = () => {
         </div>
         {isMenuOpen && (
           <div className="dropdown-menu">
-            <a href="/destinations">Destinations</a>
             <a href="/packages">Packages</a>
             <a href="/testimonials">Testimonials</a>
             <a href="/faq">FAQ</a>

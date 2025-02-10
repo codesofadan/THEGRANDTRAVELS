@@ -46,9 +46,9 @@ const Destinations = () => {
           />
         ))}
       </div>
-      <Link to="/destinations">
+      {/* <Link to="/destinations">
         <button className="load-more-btn">Load More</button>
-      </Link>
+      </Link> */}
     </div>
   );
 };

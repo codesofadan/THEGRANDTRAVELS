@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Autosuggest from 'react-autosuggest';
 import './SearchBar.css';
 
@@ -10,6 +10,16 @@ const SearchBar = () => {
   const [valueFrom, setValueFrom] = useState('');
   const [valueTo, setValueTo] = useState('');
   const [tripType, setTripType] = useState('return');
+  const [isMobile, setIsMobile] = useState(window.innerWidth < 480);
+
+  useEffect(() => {
+    const handleResize = () => {
+      setIsMobile(window.innerWidth < 480);
+    };
+
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
 
   const handleTabClick = (tabName) => {
     setActiveTab(tabName);
@@ -49,7 +59,9 @@ const SearchBar = () => {
   };
 
   const handleExpand = () => {
-    setIsExpanded(true);
+    if (!isMobile) {
+      setIsExpanded(true);
+    }
   };
 
   const airportOptions = [
@@ -846,6 +858,7 @@ const SearchBar = () => {
     // Add more options as needed
   ];
 
+
   const getSuggestions = (value) => {
     const inputValue = value.trim().toLowerCase();
     const inputLength = inputValue.length;
@@ -915,7 +928,7 @@ const SearchBar = () => {
       {tripType === 'return' && (
         <input type="date" name="returnDate" onChange={handleInputChange} className="input-field" />
       )}
-      {isExpanded && (
+      {isExpanded && !isMobile && (
         <>
           <input
             type="text"
@@ -960,7 +973,7 @@ const SearchBar = () => {
       />
       <input type="date" name="checkInDate" onChange={handleInputChange} className="input-field" />
       <input type="date" name="checkOutDate" onChange={handleInputChange} className="input-field" />
-      {isExpanded && (
+      {isExpanded && !isMobile && (
         <>
           <select name="rooms" onChange={handleInputChange} className="input-field">
             <option value="">No of Rooms</option>
