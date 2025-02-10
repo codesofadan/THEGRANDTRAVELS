@@ -6,10 +6,10 @@
   }
   
   .section-heading {
-    font-size: 2.5em;
-    margin-bottom: 30px;
+    font-size: 3.5rem;
+    margin-bottom: 50px;
     color: #003366; /* Navy Blue */
-    font-weight: bold;
+    font-weight: bolder;
   }
   
   .hotels-container {
@@ -75,6 +75,7 @@
     background-color: #ffcc00; /* Navy Blue */
     color: #000; /* Golden */
     border: none;
+    margin-top: 30px;
     border-radius: 4px;
     cursor: pointer;
     transition: background-color 0.3s, transform 0.2s;
@@ -82,6 +83,7 @@
   
   .hotels-section .book-button:hover {
     background-color: #002244; /* Darker Navy Blue */
+    color: #fff;
     transform: translateY(-2px);
   }
   
