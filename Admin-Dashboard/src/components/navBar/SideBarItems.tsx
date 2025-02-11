@@ -5,10 +5,7 @@ import ReceiptOutlinedIcon from "@mui/icons-material/ReceiptOutlined";
 import PersonOutlinedIcon from "@mui/icons-material/PersonOutlined";
 import CalendarTodayOutlinedIcon from "@mui/icons-material/CalendarTodayOutlined";
 import HelpOutlineOutlinedIcon from "@mui/icons-material/HelpOutlineOutlined";
-import BarChartOutlinedIcon from "@mui/icons-material/BarChartOutlined";
-import PieChartOutlineOutlinedIcon from "@mui/icons-material/PieChartOutlineOutlined";
 import TimelineOutlinedIcon from "@mui/icons-material/TimelineOutlined";
-import MapOutlinedIcon from "@mui/icons-material/MapOutlined";
 import FlightTakeoffOutlinedIcon from "@mui/icons-material/FlightTakeoffOutlined";
 import {
   Divider,
@@ -146,16 +143,7 @@ const SideBarItems = ({ open, handleDrawer }: SideBarItemsProps) => {
       {menuItems.map((section, sectionIndex) => (
         <Fragment key={sectionIndex}>
           <List
-            subheader={
-              <ListSubheader
-                sx={{
-                  px: { xs: !open ? "0" : "16px", md: !open ? "20px" : "16px" },
-                  textAlign: { xs: !open ? "center" : "left", md: "left" },
-                }}
-              >
-                {section.header}
-              </ListSubheader>
-            }
+            subheader={null}
           >
             <ListSubheader />
             {section.items.map((item, itemIndex) => (

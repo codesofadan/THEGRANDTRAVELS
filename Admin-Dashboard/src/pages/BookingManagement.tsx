@@ -1,8 +1,8 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import axios from 'axios';
 
 const BookingsManagement = () => {
-  const [bookings, setBookings] = useState([]);
+  const [bookings, setBookings] = useState<any[]>([]);
   const [customerName, setCustomerName] = useState('');
   const [customerEmail, setCustomerEmail] = useState('');
   const [phoneNumber, setPhoneNumber] = useState('');
@@ -23,10 +23,20 @@ const BookingsManagement = () => {
     }
   };
 
-  const handleSubmit = async (e) => {
+  interface Booking {
+    _id: string;
+    customerName: string;
+    customerEmail: string;
+    phoneNumber: string;
+    bookingDate: string;
+    status: string;
+    notes: string;
+  }
+
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     try {
-      const response = await axios.post('http://localhost:5000/api/bookings', {
+      const response = await axios.post<Booking>('http://localhost:5000/api/bookings', {
         customerName,
         customerEmail,
         phoneNumber,
@@ -46,7 +56,17 @@ const BookingsManagement = () => {
     }
   };
 
-  const handleDelete = async (bookingId) => {
+  interface Booking {
+    _id: string;
+    customerName: string;
+    customerEmail: string;
+    phoneNumber: string;
+    bookingDate: string;
+    status: string;
+    notes: string;
+  }
+
+  const handleDelete = async (bookingId: string) => {
     try {
       await axios.delete(`http://localhost:5000/api/bookings/${bookingId}`);
       setBookings((prevBookings) => prevBookings.filter((booking) => booking._id !== bookingId));

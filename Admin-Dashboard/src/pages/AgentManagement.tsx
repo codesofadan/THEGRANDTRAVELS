@@ -1,14 +1,26 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import axios from 'axios';
 
 const AgentManagement = () => {
   const [selectedTab, setSelectedTab] = useState('allAgents');
-  const [agents, setAgents] = useState([]);
+  interface Agent {
+    _id: string;
+    name: string;
+    email: string;
+    performanceStats: {
+      queriesOpened: number;
+      queriesResponded: number;
+      bookingsMade: number;
+      invoicesGenerated: number;
+    };
+  }
+
+  const [agents, setAgents] = useState<Agent[]>([]);
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [selectedAgentId, setSelectedAgentId] = useState(null);
-  const [activityLog, setActivityLog] = useState([]);
+  const [selectedAgentId, setSelectedAgentId] = useState<string | null>(null);
+  const [activityLog, setActivityLog] = useState<ActivityLogEntry[]>([]);
 
   useEffect(() => {
     if (selectedTab === 'allAgents') {
@@ -31,19 +43,24 @@ const AgentManagement = () => {
     }
   };
 
-  const fetchActivityLog = async (agentId) => {
+  interface ActivityLogEntry {
+    action: string;
+    timestamp: string;
+  }
+
+  const fetchActivityLog = async (agentId: string): Promise<void> => {
     try {
-      const response = await axios.get(`http://localhost:5000/api/agents/${agentId}/activity-log`);
+      const response = await axios.get<ActivityLogEntry[]>(`http://localhost:5000/api/agents/${agentId}/activity-log`);
       setActivityLog(response.data);
     } catch (error) {
       console.error('Error fetching activity log:', error);
     }
   };
 
-  const handleAddAgent = async (e) => {
+  const handleAddAgent = async (e: React.FormEvent<HTMLFormElement>): Promise<void> => {
     e.preventDefault();
     try {
-      const response = await axios.post('http://localhost:5000/api/agents', { name, email, password });
+      await axios.post('http://localhost:5000/api/agents', { name, email, password });
       alert('Agent added successfully');
       setName('');
       setEmail('');

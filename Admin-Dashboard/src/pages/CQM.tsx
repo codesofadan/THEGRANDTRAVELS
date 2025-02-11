@@ -1,9 +1,9 @@
-import React, { useState, useEffect } from "react";
-import { fetchQueries, updateQuery, addQueryNote } from "../api";
+import { useState, useEffect } from "react";
+import { fetchQueries, updateQuery, addQueryNote, Query, Note } from "../api";
 
 const CQM = () => {
-  const [queries, setQueries] = useState([]);
-  const [selectedQuery, setSelectedQuery] = useState(null);
+  const [queries, setQueries] = useState<Query[]>([]);
+  const [selectedQuery, setSelectedQuery] = useState<Query | null>(null);
   const [note, setNote] = useState("");
 
   useEffect(() => {
@@ -14,14 +14,15 @@ const CQM = () => {
     loadQueries();
   }, []);
 
-  const handleStatusChange = async (queryId, newStatus) => {
-    const updatedQuery = await updateQuery(queryId, { status: newStatus });
-    setQueries(queries.map(query => query._id === queryId ? updatedQuery : query));
+  const handleStatusChange = async (queryId: string, newStatus: string): Promise<void> => {
+    await updateQuery(queryId, { status: newStatus });
+    setQueries(queries.map(query => query._id === queryId ? { ...query, status: newStatus } : query));
   };
 
-  const handleAddNote = async (queryId, note) => {
-    const updatedQuery = await addQueryNote(queryId, note);
-    setQueries(queries.map(query => query._id === queryId ? updatedQuery : query));
+  const handleAddNote = async (queryId: string, noteText: string): Promise<void> => {
+    const newNote: Note = { text: noteText, createdAt: new Date().toISOString() };
+    await addQueryNote(queryId, newNote);
+    setQueries(queries.map(query => query._id === queryId ? { ...query, notes: [...query.notes, newNote] } : query));
     setNote("");
   };
 

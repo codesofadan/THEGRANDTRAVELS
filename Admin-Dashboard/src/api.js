@@ -17,7 +17,8 @@ export const uploadPopupImage = async (file) => {
     throw new Error(error.message || "Failed to upload image");
   }
 
-  return response.json();
+  const data = await response.json();
+  return { message: data.message, imageUrl: data.imageUrl };
 };
 
 // Function to fetch the latest popup image

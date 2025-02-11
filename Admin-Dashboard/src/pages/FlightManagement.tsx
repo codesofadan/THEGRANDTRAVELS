@@ -1,47 +1,56 @@
-import React, { useState, useEffect } from 'react';
-import { createFlight, fetchFlights } from '../api';
+import { useState, useEffect, ChangeEvent, FormEvent } from 'react';
+import { createFlight, fetchFlights, Flight } from '../api';
 
 const FlightManagement = () => {
-  const [formData, setFormData] = useState({
+  const [formData, setFormData] = useState<Flight>({
+    id: '',
     airline: '',
-    flight_number: '',
-    departure_airport: '',
-    arrival_airport: '',
+    departure: '',
+    arrival: '',
+    duration: '',
+    price: 0,
     departure_time: '',
     arrival_time: '',
     status: '',
-    duration: '',
-    price: '',
     logo: null,
+    flight_number: '',
+    departure_airport: '',
+    arrival_airport: '',
   });
-  const [flights, setFlights] = useState([]);
-  const [responseMessage, setResponseMessage] = useState('');
+  const [flights, setFlights] = useState<Flight[]>([]);
+  const [responseMessage, setResponseMessage] = useState<string>('');
 
-  const handleInputChange = (e) => {
+  const handleInputChange = (e: ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
-  const handleFileChange = (e) => {
-    setFormData((prev) => ({ ...prev, logo: e.target.files[0] }));
+  const handleFileChange = (e: ChangeEvent<HTMLInputElement>) => {
+    if (e.target.files && e.target.files.length > 0) {
+      const file: File = e.target.files[0];
+      setFormData((prev) => ({ ...prev, logo: file }));
+    }
   };
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     try {
-      await createFlight(formData);
+      await createFlight({ ...formData, price: Number(formData.price) });
       setResponseMessage('Flight added successfully!');
       setFormData({
+        id: '',
         airline: '',
-        flight_number: '',
-        departure_airport: '',
-        arrival_airport: '',
+        departure: '',
+        arrival: '',
+        duration: '',
+        price: 0,
         departure_time: '',
         arrival_time: '',
         status: '',
-        duration: '',
-        price: '',
         logo: null,
+        flight_number: '',
+        departure_airport: '',
+        arrival_airport: '',
       });
       loadFlights();
     } catch (error) {
@@ -164,7 +173,7 @@ const FlightManagement = () => {
         </thead>
         <tbody>
           {flights.map(flight => (
-            <tr key={flight._id}>
+            <tr key={flight.id}>
               <td>{flight.flight_number}</td>
               <td>{flight.airline}</td>
               <td>{flight.departure_airport}</td>
@@ -175,7 +184,7 @@ const FlightManagement = () => {
               <td>{flight.duration}</td>
               <td>{typeof flight.price === 'number' ? `$${flight.price.toFixed(2)}` : 'N/A'}</td>
               <td>
-                {flight.logoUrl && <img src={`http://localhost:5000${flight.logoUrl}`} alt="Airline Logo" width="50" />}
+                {flight.logo && <img src={URL.createObjectURL(flight.logo)} alt="Airline Logo" width="50" />}
               </td>
             </tr>
           ))}

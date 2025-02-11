@@ -23,7 +23,18 @@ interface FormData {
 
 const CreateInvoice: React.FC = () => {
   const { handleSubmit, control } = useForm<FormData>();
-  const [invoices, setInvoices] = useState([]);
+  interface Invoice {
+    _id: string;
+    name: string;
+    email: string;
+    phone: string;
+    departure: string;
+    destination: string;
+    date: string;
+    price: number;
+  }
+  
+  const [invoices, setInvoices] = useState<Invoice[]>([]);
 
   useEffect(() => {
     fetchInvoices();
