@@ -24,14 +24,7 @@ app.use("/invoices", express.static("invoices")); // Serve uploaded invoices
 
 // CORS configuration
 const corsOptions = {
-  origin: [
-    'https://thegrandtravelsfrontend.vercel.app',
-    'http://localhost:5173',
-    'http://localhost:5174',
-    'http://localhost:5175',
-    'https://thegrandtravelsadmin-seven.vercel.app',
-    'https://www.thegrandtravels.co.uk'
-  ],
+  origin: '*',
   methods: ['GET', 'POST', 'PUT', 'DELETE'],
   optionsSuccessStatus: 200,
 };
@@ -65,6 +58,10 @@ app.post("/api/upload-popup", upload.single("popupImage"), (req, res) => {
 // API to fetch latest popup image
 app.get("/api/get-popup", (req, res) => {
   res.json({ imageUrl: `https://thegrandtravelsbackend.vercel.app/uploads/popup-image.jpg` });
+});
+
+app.get('/api/health', (req, res) => {
+  res.send('Server is running');
 });
 
 // API to upload invoice
