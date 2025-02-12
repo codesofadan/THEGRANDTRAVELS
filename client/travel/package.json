@@ -10,7 +10,7 @@
   "scripts": {
     "dev": "vite",
     "build": "vite build",
-    "start": "vite",
+    "start": "",
     "homepage": ".",
     "lint": "eslint .",
     "preview": "vite preview"
