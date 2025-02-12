@@ -22,12 +22,8 @@ app.use(express.json());
 app.use("/uploads", express.static("uploads")); // Serve uploaded images
 app.use("/invoices", express.static("invoices")); // Serve uploaded invoices
 
-// CORS configuration
-const corsOptions = {
-  origin: ['https://thegrandtravelsfrontend.vercel.app' ,   'http://localhost:5173' , 'http://localhost:5174' ,  'http://localhost:5175' , 'https://thegrandtravelsadmin-seven.vercel.app/'],
-  optionsSuccessStatus: 200,
-};
-app.use(cors(corsOptions));
+// Universal CORS configuration to allow all origins
+app.use(cors());
 
 // Multer storage setup for popup images
 const storage = multer.diskStorage({
@@ -51,17 +47,17 @@ const uploadInvoice = multer({ storage: invoiceStorage });
 
 // API to upload image
 app.post("/api/upload-popup", upload.single("popupImage"), (req, res) => {
-  res.json({ imageUrl: `https://thegrandtravelsbackend.vercel.app/uploads/${req.file.filename}` });
+  res.json({ imageUrl: `http://localhost:5000/uploads/${req.file.filename}` });
 });
 
 // API to fetch latest popup image
 app.get("/api/get-popup", (req, res) => {
-  res.json({ imageUrl: `https://thegrandtravelsbackend.vercel.app/uploads/popup-image.jpg` });
+  res.json({ imageUrl: `http://localhost:5000/uploads/popup-image.jpg` });
 });
 
 // API to upload invoice
 app.post("/api/upload-invoice", uploadInvoice.single("invoice"), (req, res) => {
-  res.json({ invoiceUrl: `https://thegrandtravelsbackend.vercel.app/invoices/${req.file.filename}` });
+  res.json({ invoiceUrl: `http://localhost:5000/invoices/${req.file.filename}` });
 });
 
 // Serve static files in production
@@ -77,11 +73,11 @@ if (process.env.NODE_ENV === "production") {
 app.use('/api/flights', flightsRoutes);
 app.use("/api/auth", authRoutes);
 app.use("/api/popup", popupRoutes);
-app.use('/api', queryRoutes);
-app.use('/api', agentRoutes);
-app.use('/api', bookingRoutes);
-app.use('/api', calendarEventRoutes);
-app.use('/api', invoiceRoutes); // Use the invoice routes
+app.use('/api/queries', queryRoutes);
+app.use('/api/agents', agentRoutes);
+app.use('/api/bookings', bookingRoutes);
+app.use('/api/events', calendarEventRoutes);
+app.use('/api/invoices', invoiceRoutes); // Use the invoice routes
 
 // Connect to MongoDB
 mongoose
