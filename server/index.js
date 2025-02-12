@@ -7,7 +7,7 @@ const multer = require('multer');
 const flightsRoutes = require('./routes/flightsRoutes');
 const authRoutes = require('./routes/authRoutes');
 const popupRoutes = require('./routes/popupRoutes');
-const queryRoutes = require('./routes/queryRoutes'); // Ensure this route is correctly imported
+const queryRoutes = require('./routes/queryRoutes');
 const agentRoutes = require('./routes/agentRoutes');
 const bookingRoutes = require('./routes/bookingRoutes');
 const calendarEventRoutes = require('./routes/calendarEventRoutes');
@@ -24,7 +24,7 @@ app.use("/invoices", express.static("invoices")); // Serve uploaded invoices
 
 // CORS configuration
 const corsOptions = {
-  origin: ['https://thegrandtravelsfrontend.vercel.app', 'https://thegrandtravelsadmin-seven.vercel.app', 'http://localhost:5173', 'http://localhost:5174'],
+  origin: ['https://thegrandtravelsfrontend.vercel.app' ,   'http://localhost:5173' , 'http://localhost:5174' ,  'http://localhost:5175' , 'https://thegrandtravelsadmin-seven.vercel.app/'],
   optionsSuccessStatus: 200,
 };
 app.use(cors(corsOptions));
@@ -77,11 +77,11 @@ if (process.env.NODE_ENV === "production") {
 app.use('/api/flights', flightsRoutes);
 app.use("/api/auth", authRoutes);
 app.use("/api/popup", popupRoutes);
-app.use('/api/queries', queryRoutes); // Ensure this route is correctly set up
-app.use('/api/agents', agentRoutes);
-app.use('/api/bookings', bookingRoutes);
-app.use('/api/events', calendarEventRoutes);
-app.use('/api/invoices', invoiceRoutes); // Use the invoice routes
+app.use('/api', queryRoutes);
+app.use('/api', agentRoutes);
+app.use('/api', bookingRoutes);
+app.use('/api', calendarEventRoutes);
+app.use('/api', invoiceRoutes); // Use the invoice routes
 
 // Connect to MongoDB
 mongoose

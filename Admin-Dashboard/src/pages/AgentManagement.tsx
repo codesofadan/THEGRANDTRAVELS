@@ -36,7 +36,7 @@ const AgentManagement = () => {
 
   const fetchAgents = async () => {
     try {
-      const response = await axios.get('https://thegrandtravelsbackend.vercel.app/api/agents');
+      const response = await axios.get('https://localhost:5000/api/agents');
       setAgents(response.data);
     } catch (error) {
       console.error('Error fetching agents:', error);
@@ -50,7 +50,7 @@ const AgentManagement = () => {
 
   const fetchActivityLog = async (agentId: string): Promise<void> => {
     try {
-      const response = await axios.get<ActivityLogEntry[]>(`https://thegrandtravelsbackend.vercel.app/api/agents/${agentId}/activity-log`);
+      const response = await axios.get<ActivityLogEntry[]>(`https://localhost:5000/api/agents/${agentId}/activity-log`);
       setActivityLog(response.data);
     } catch (error) {
       console.error('Error fetching activity log:', error);
@@ -60,7 +60,7 @@ const AgentManagement = () => {
   const handleAddAgent = async (e: React.FormEvent<HTMLFormElement>): Promise<void> => {
     e.preventDefault();
     try {
-      await axios.post('https://thegrandtravelsbackend.vercel.app/api/agents', { name, email, password });
+      await axios.post('https://localhost:5000/api/agents', { name, email, password });
       alert('Agent added successfully');
       setName('');
       setEmail('');

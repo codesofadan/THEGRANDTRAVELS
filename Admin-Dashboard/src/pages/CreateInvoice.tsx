@@ -42,7 +42,7 @@ const CreateInvoice: React.FC = () => {
 
   const fetchInvoices = async () => {
     try {
-      const response = await axios.get('https://thegrandtravelsbackend.vercel.app/api/invoices/all');
+      const response = await axios.get('https://localhost:5000/api/invoices/all');
       setInvoices(response.data);
     } catch (error) {
       console.error('Error fetching invoices:', error);
@@ -125,7 +125,7 @@ const CreateInvoice: React.FC = () => {
       formDataToUpload.append('invoice', pdfBlob, 'invoice.pdf');
 
       // Upload PDF to server
-      const response = await axios.post('https://thegrandtravelsbackend.vercel.app/upload-invoice', formDataToUpload, {
+      const response = await axios.post('https://localhost:5000/upload-invoice', formDataToUpload, {
         headers: {
           'Content-Type': 'multipart/form-data',
         },
