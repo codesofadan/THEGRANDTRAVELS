@@ -2,9 +2,9 @@ const express = require('express');
 const { createQuery, getQueries, updateQuery, addNote } = require('../controllers/queryController');
 const router = express.Router();
 
-router.post('/', createQuery);
-router.get('/', getQueries);
-router.put('/:id', updateQuery);
-router.post('/:id/note', addNote);
+router.post('/queries', createQuery);
+router.get('/queries', getQueries);
+router.put('/queries/:id', updateQuery);
+router.post('/queries/:id/note', addNote);
 
 module.exports = router;
