@@ -1,10 +1,25 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import { fetchQueries, updateQuery, addQueryNote } from "../api";
 
+// Define types for Query and Note
+interface Note {
+  text: string;
+  createdAt: string;
+}
+
+interface Query {
+  _id: string;
+  name: string;
+  email: string;
+  message: string;
+  status: string;
+  notes: Note[];
+}
+
 const CQM = () => {
-  const [queries, setQueries] = useState([]);
-  const [selectedQuery, setSelectedQuery] = useState(null);
-  const [note, setNote] = useState("");
+  const [queries, setQueries] = useState<Query[]>([]);
+  const [selectedQuery, setSelectedQuery] = useState<Query | null>(null);
+  const [note, setNote] = useState<string>("");
 
   useEffect(() => {
     const loadQueries = async () => {
@@ -14,13 +29,13 @@ const CQM = () => {
     loadQueries();
   }, []);
 
-  const handleStatusChange = async (queryId, newStatus) => {
+  const handleStatusChange = async (queryId: string, newStatus: string) => {
     const updatedQuery = await updateQuery(queryId, { status: newStatus });
     setQueries(queries.map(query => query._id === queryId ? updatedQuery : query));
   };
 
-  const handleAddNote = async (queryId, note) => {
-    const updatedQuery = await addQueryNote(queryId, note);
+  const handleAddNote = async (queryId: string, note: string) => {
+    const updatedQuery = await addQueryNote(queryId, { text: note, createdAt: new Date().toISOString() });
     setQueries(queries.map(query => query._id === queryId ? updatedQuery : query));
     setNote("");
   };
@@ -58,6 +73,13 @@ const CQM = () => {
                   <li key={index}>{note.text} - {new Date(note.createdAt).toLocaleString()}</li>
                 ))}
               </ul>
+              <input
+                type="text"
+                value={note}
+                onChange={(e) => setNote(e.target.value)}
+                placeholder="Add a note"
+              />
+              <button onClick={() => handleAddNote(selectedQuery._id, note)}>Add Note</button>
             </div>
           </div>
         </div>

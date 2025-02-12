@@ -65,7 +65,7 @@ const messagesMenu = [
 
 const NavBar = ({ open, handleDrawer }: NavBarProps) => {
   const [isSearchOpen, setIsSearchOpen] = useState(false);
-  const [notifications, setNotifications] = useState([]);
+  const [notifications, setNotifications] = useState<{ message: string }[]>([]);
   const theme = useTheme();
   const colorMode = useThemeMode();
   const trigger = useScrollTrigger();

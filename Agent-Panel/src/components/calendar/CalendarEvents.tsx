@@ -82,13 +82,7 @@ const CalendarEvents = () => {
         });
         setCurrentEvents((prevEvents) => [
           ...prevEvents,
-          {
-            id: newEvent._id,
-            title: newEvent.title,
-            start: newEvent.start,
-            end: newEvent.end,
-            allDay: newEvent.allDay,
-          },
+          calendarApi?.getEventById(newEvent._id) as EventApi,
         ]);
       } catch (error) {
         console.error("Error adding event:", error);
@@ -238,7 +232,13 @@ const CalendarEvents = () => {
               dateClick={handleDateClick}
               eventClick={handleEventClick}
               eventsSet={handleEvents}
-              events={currentEvents}
+              events={currentEvents.map(event => ({
+                id: event.id,
+                title: event.title,
+                start: event.start ? event.start.toISOString() : undefined,
+                end: event.end ? event.end.toISOString() : undefined,
+                allDay: event.allDay,
+              }))}
             />
           </Paper>
         </Box>

@@ -4,26 +4,14 @@ import RootLayout from "./pages/Root";
 import Spinner from "./components/ui/Spinner";
 import { AuthProvider } from "./context/AuthContext";
 import PrivateRoute from "./components/PrivateRoute";
-import PopupManagement from "./pages/PopupManager";
-import PopupManager from "./pages/PopupManager";
 import CQM from "./pages/CQM";
 import FlightManagement from "./pages/FlightManagement";
-import AgentManagement from "./pages/AgentManagement";
 import BookingManagement from "./pages/BookingManagement";
 
 // Lazy-loaded pages
 const ErrorPage = lazy(() => import("./pages/Error"));
 const HomePage = lazy(() => import("./pages/Home"));
-const TeamPage = lazy(() => import("./pages/Team"));
 const InvoicesPage = lazy(() => import("./pages/Invoices"));
-const ContactsPage = lazy(() => import("./pages/Contacts"));
-const CalendarPage = lazy(() => import("./pages/Calendar"));
-const FaqPage = lazy(() => import("./pages/Faq"));
-const BarPage = lazy(() => import("./pages/Bar"));
-const PiePage = lazy(() => import("./pages/Pie"));
-const LinePage = lazy(() => import("./pages/Line"));
-const GeographyPage = lazy(() => import("./pages/Geography"));
-const NewUserPage = lazy(() => import("./pages/NewUser"));
 const CreateInvoicePage = lazy(() => import("./pages/CreateInvoice"));
 const LoginPage = lazy(() => import("./pages/login"));
 
