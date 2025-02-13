@@ -3,10 +3,8 @@ const cors = require('cors');
 const dotenv = require('dotenv');
 const mongoose = require('mongoose');
 const path = require('path');
-const multer = require('multer');
 const flightsRoutes = require('./routes/flightsRoutes');
 const authRoutes = require('./routes/authRoutes');
-const popupRoutes = require('./routes/popupRoutes');
 const queryRoutes = require('./routes/queryRoutes');
 const agentRoutes = require('./routes/agentRoutes');
 const bookingRoutes = require('./routes/bookingRoutes');
@@ -30,44 +28,44 @@ const corsOptions = {
 };
 app.use(cors(corsOptions));
 
-// Multer storage setup for popup images
-const storage = multer.diskStorage({
-  destination: "uploads/",
-  filename: (req, file, cb) => {
-    cb(null, "popup-image" + path.extname(file.originalname));
-  },
-});
+// Remove Multer storage setup for popup images
+// const storage = multer.diskStorage({
+//   destination: "uploads/",
+//   filename: (req, file, cb) => {
+//     cb(null, "popup-image" + path.extname(file.originalname));
+//   },
+// });
 
-const upload = multer({ storage });
+// const upload = multer({ storage });
 
-// Multer storage setup for invoices
-const invoiceStorage = multer.diskStorage({
-  destination: "invoices/",
-  filename: (req, file, cb) => {
-    cb(null, `${Date.now()}-${file.originalname}`);
-  },
-});
+// Remove Multer storage setup for invoices
+// const invoiceStorage = multer.diskStorage({
+//   destination: "invoices/",
+//   filename: (req, file, cb) => {
+//     cb(null, `${Date.now()}-${file.originalname}`);
+//   },
+// });
 
-const uploadInvoice = multer({ storage: invoiceStorage });
+// const uploadInvoice = multer({ storage: invoiceStorage });
 
-// API to upload image
-app.post("/api/upload-popup", upload.single("popupImage"), (req, res) => {
-  res.json({ imageUrl: `https://thegrandtravelsbackend.vercel.app/uploads/${req.file.filename}` });
-});
+// Remove API to upload image
+// app.post("/api/upload-popup", upload.single("popupImage"), (req, res) => {
+//   res.json({ imageUrl: `https://thegrandtravelsbackend.vercel.app/uploads/${req.file.filename}` });
+// });
 
-// API to fetch latest popup image
-app.get("/api/get-popup", (req, res) => {
-  res.json({ imageUrl: `https://thegrandtravelsbackend.vercel.app/uploads/popup-image.jpg` });
-});
+// Remove API to fetch latest popup image
+// app.get("/api/get-popup", (req, res) => {
+//   res.json({ imageUrl: `https://thegrandtravelsbackend.vercel.app/uploads/popup-image.jpg` });
+// });
 
 app.get('/api/health', (req, res) => {
   res.send('Server is running');
 });
 
-// API to upload invoice
-app.post("/api/upload-invoice", uploadInvoice.single("invoice"), (req, res) => {
-  res.json({ invoiceUrl: `https://thegrandtravelsbackend.vercel.app/invoices/${req.file.filename}` });
-});
+// Remove API to upload invoice
+// app.post("/api/upload-invoice", uploadInvoice.single("invoice"), (req, res) => {
+//   res.json({ invoiceUrl: `https://thegrandtravelsbackend.vercel.app/invoices/${req.file.filename}` });
+// });
 
 // Serve static files in production
 if (process.env.NODE_ENV === "production") {
@@ -81,7 +79,6 @@ if (process.env.NODE_ENV === "production") {
 // Routes
 app.use('/api/flights', flightsRoutes);
 app.use("/api/auth", authRoutes);
-app.use("/api/popup", popupRoutes);
 app.use('/api', queryRoutes);
 app.use('/api', agentRoutes);
 app.use('/api', bookingRoutes);
