@@ -1,19 +1,17 @@
-const express = require("express");
-const cors = require("cors");
-const dotenv = require("dotenv");
-const mongoose = require("mongoose");
-const path = require("path");
-const multer = require("multer");
-
-// Importing routes
-const flightsRoutes = require("./routes/flightsRoutes");
-const authRoutes = require("./routes/authRoutes");
-const popupRoutes = require("./routes/popupRoutes");
-const queryRoutes = require("./routes/queryRoutes");
-const agentRoutes = require("./routes/agentRoutes");
-const bookingRoutes = require("./routes/bookingRoutes");
-const calendarEventRoutes = require("./routes/calendarEventRoutes");
-const invoiceRoutes = require("./routes/invoiceRoutes");
+const express = require('express');
+const cors = require('cors');
+const dotenv = require('dotenv');
+const mongoose = require('mongoose');
+const path = require('path');
+const multer = require('multer');
+const flightsRoutes = require('./routes/flightsRoutes');
+const authRoutes = require('./routes/authRoutes');
+const popupRoutes = require('./routes/popupRoutes');
+const queryRoutes = require('./routes/queryRoutes');
+const agentRoutes = require('./routes/agentRoutes');
+const bookingRoutes = require('./routes/bookingRoutes');
+const calendarEventRoutes = require('./routes/calendarEventRoutes');
+const invoiceRoutes = require('./routes/invoiceRoutes'); // Import the invoice routes
 
 dotenv.config();
 
@@ -21,63 +19,88 @@ const app = express();
 
 // Middleware
 app.use(express.json());
-app.use(cors({ origin: "*", methods: ["GET", "POST", "PUT", "DELETE"] }));
+app.use("/uploads", express.static("uploads")); // Serve uploaded images
+app.use("/invoices", express.static("invoices")); // Serve uploaded invoices
 
-// MongoDB Connection
+// CORS configuration
+const corsOptions = {
+  origin: '*',
+  methods: ['GET', 'POST', 'PUT', 'DELETE'],
+  optionsSuccessStatus: 200,
+};
+app.use(cors(corsOptions));
+
+// Multer storage setup for popup images
+const storage = multer.diskStorage({
+  destination: "uploads/",
+  filename: (req, file, cb) => {
+    cb(null, "popup-image" + path.extname(file.originalname));
+  },
+});
+
+const upload = multer({ storage });
+
+// Multer storage setup for invoices
+const invoiceStorage = multer.diskStorage({
+  destination: "invoices/",
+  filename: (req, file, cb) => {
+    cb(null, `${Date.now()}-${file.originalname}`);
+  },
+});
+
+const uploadInvoice = multer({ storage: invoiceStorage });
+
+// API to upload image
+app.post("/api/upload-popup", upload.single("popupImage"), (req, res) => {
+  res.json({ imageUrl: `https://thegrandtravelsbackend.vercel.app/uploads/${req.file.filename}` });
+});
+
+// API to fetch latest popup image
+app.get("/api/get-popup", (req, res) => {
+  res.json({ imageUrl: `https://thegrandtravelsbackend.vercel.app/uploads/popup-image.jpg` });
+});
+
+app.get('/api/health', (req, res) => {
+  res.send('Server is running');
+});
+
+// API to upload invoice
+app.post("/api/upload-invoice", uploadInvoice.single("invoice"), (req, res) => {
+  res.json({ invoiceUrl: `https://thegrandtravelsbackend.vercel.app/invoices/${req.file.filename}` });
+});
+
+// Serve static files in production
+if (process.env.NODE_ENV === "production") {
+  app.use(express.static(path.join(__dirname, "../client/build")));
+
+  app.get("*", (req, res) => {
+    res.sendFile(path.resolve(__dirname, "../client/build", "index.html"));
+  });
+}
+
+// Routes
+app.use('/api/flights', flightsRoutes);
+app.use("/api/auth", authRoutes);
+app.use("/api/popup", popupRoutes);
+app.use('/api', queryRoutes);
+app.use('/api', agentRoutes);
+app.use('/api', bookingRoutes);
+app.use('/api', calendarEventRoutes);
+app.use('/api', invoiceRoutes); // Use the invoice routes
+
+// Connect to MongoDB
 mongoose
   .connect(process.env.MONGO_URI, {
     useNewUrlParser: true,
     useUnifiedTopology: true,
   })
-  .then(() => console.log("MongoDB connected"))
+  .then(() => {
+    console.log("MongoDB connected");
+  })
   .catch((err) => console.error("Database connection error:", err));
 
-// Serve static files (if using Vercel, consider using external storage like S3)
-app.use("/uploads", express.static("uploads"));
-app.use("/invoices", express.static("invoices"));
-
-// Multer storage setup for uploads
-const storage = multer.diskStorage({
-  destination: "uploads/",
-  filename: (req, file, cb) => cb(null, "popup-image" + path.extname(file.originalname)),
+// Start the server
+const port = process.env.PORT || 5000;
+app.listen(port, () => {
+  console.log(`Server running on port ${port}`);
 });
-const upload = multer({ storage });
-
-const invoiceStorage = multer.diskStorage({
-  destination: "invoices/",
-  filename: (req, file, cb) => cb(null, `${Date.now()}-${file.originalname}`),
-});
-const uploadInvoice = multer({ storage: invoiceStorage });
-
-// API routes
-app.use("/api/flights", flightsRoutes);
-app.use("/api/auth", authRoutes);
-app.use("/api/popup", popupRoutes);
-app.use("/api", queryRoutes);
-app.use("/api", agentRoutes);
-app.use("/api", bookingRoutes);
-app.use("/api", calendarEventRoutes);
-app.use("/api", invoiceRoutes);
-
-// Upload endpoints
-app.post("/api/upload-popup", upload.single("popupImage"), (req, res) => {
-  res.json({ imageUrl: `/uploads/${req.file.filename}` });
-});
-
-app.post("/api/upload-invoice", uploadInvoice.single("invoice"), (req, res) => {
-  res.json({ invoiceUrl: `/invoices/${req.file.filename}` });
-});
-
-// Health check
-app.get("/api/health", (req, res) => {
-  res.send("Server is running");
-});
-
-// Serve frontend (only for local, not required in Vercel)
-if (process.env.NODE_ENV === "production") {
-  app.use(express.static(path.join(__dirname, "../client/build")));
-  app.get("*", (req, res) => res.sendFile(path.resolve(__dirname, "../client/build", "index.html")));
-}
-
-// **🚀 IMPORTANT:** Vercel requires exporting the app, NOT using `app.listen()`
-module.exports = app;
