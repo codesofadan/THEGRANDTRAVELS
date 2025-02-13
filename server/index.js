@@ -4,6 +4,8 @@ const dotenv = require('dotenv');
 const mongoose = require('mongoose');
 const path = require('path');
 const multer = require('multer');
+const cloudinary = require('cloudinary').v2;
+const { CloudinaryStorage } = require('multer-storage-cloudinary');
 const flightsRoutes = require('./routes/flightsRoutes');
 const authRoutes = require('./routes/authRoutes');
 const popupRoutes = require('./routes/popupRoutes');
@@ -19,8 +21,6 @@ const app = express();
 
 // Middleware
 app.use(express.json());
-app.use("/uploads", express.static("uploads")); // Serve uploaded images
-app.use("/invoices", express.static("invoices")); // Serve uploaded invoices
 
 // CORS configuration
 const corsOptions = {
@@ -30,21 +30,32 @@ const corsOptions = {
 };
 app.use(cors(corsOptions));
 
-// Multer storage setup for popup images
-const storage = multer.diskStorage({
-  destination: "uploads/",
-  filename: (req, file, cb) => {
-    cb(null, "popup-image" + path.extname(file.originalname));
+// Cloudinary configuration
+cloudinary.config({
+  cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
+  api_key: process.env.CLOUDINARY_API_KEY,
+  api_secret: process.env.CLOUDINARY_API_SECRET,
+});
+
+// Multer storage setup for Cloudinary
+const storage = new CloudinaryStorage({
+  cloudinary: cloudinary,
+  params: {
+    folder: 'uploads',
+    format: async (req, file) => 'jpg', // supports promises as well
+    public_id: (req, file) => 'popup-image-' + Date.now(),
   },
 });
 
 const upload = multer({ storage });
 
 // Multer storage setup for invoices
-const invoiceStorage = multer.diskStorage({
-  destination: "invoices/",
-  filename: (req, file, cb) => {
-    cb(null, `${Date.now()}-${file.originalname}`);
+const invoiceStorage = new CloudinaryStorage({
+  cloudinary: cloudinary,
+  params: {
+    folder: 'invoices',
+    format: async (req, file) => 'pdf', // supports promises as well
+    public_id: (req, file) => 'invoice-' + Date.now(),
   },
 });
 
@@ -52,21 +63,22 @@ const uploadInvoice = multer({ storage: invoiceStorage });
 
 // API to upload image
 app.post("/api/upload-popup", upload.single("popupImage"), (req, res) => {
-  res.json({ imageUrl: `https://thegrandtravelsbackend.vercel.app/uploads/${req.file.filename}` });
+  res.json({ imageUrl: req.file.path });
 });
 
 // API to fetch latest popup image
 app.get("/api/get-popup", (req, res) => {
-  res.json({ imageUrl: `https://thegrandtravelsbackend.vercel.app/uploads/popup-image.jpg` });
+  res.json({ imageUrl: `https://res.cloudinary.com/${process.env.CLOUDINARY_CLOUD_NAME}/image/upload/v1/uploads/popup-image.jpg` });
 });
 
+// Health check endpoint
 app.get('/api/health', (req, res) => {
   res.send('Server is running');
 });
 
 // API to upload invoice
 app.post("/api/upload-invoice", uploadInvoice.single("invoice"), (req, res) => {
-  res.json({ invoiceUrl: `https://thegrandtravelsbackend.vercel.app/invoices/${req.file.filename}` });
+  res.json({ invoiceUrl: req.file.path });
 });
 
 // Serve static files in production

@@ -37,6 +37,9 @@
   "body-parser": "^1.20.3",
   
     
+  "cloudinary": "^1.41.3",
+  
+    
   "cors": "^2.8.5",
   
     
@@ -65,6 +68,9 @@
   
     
   "multer": "^1.4.5-lts.1",
+  
+    
+  "multer-storage-cloudinary": "^4.0.0",
   
     
   "openflights-data": "^1.0.6",
