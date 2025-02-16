@@ -1,6 +1,5 @@
 {
   "name": "travel",
-  "private": true,
   "version": "0.0.0",
   "type": "module",
   "homepage": ".",
@@ -10,7 +9,7 @@
   "scripts": {
     "dev": "vite",
     "build": "vite build",
-    "start": "",
+    "start": "vite preview",
     "homepage": ".",
     "lint": "eslint .",
     "preview": "vite preview"

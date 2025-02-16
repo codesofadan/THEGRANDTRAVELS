@@ -19,8 +19,8 @@ const app = express();
 
 // Middleware
 app.use(express.json());
-app.use("/uploads", express.static("uploads")); // Serve uploaded images
-app.use("/invoices", express.static("invoices")); // Serve uploaded invoices
+app.use("/uploads", express.static(path.join(__dirname, "uploads"))); // Serve uploaded images
+app.use("/invoices", express.static(path.join(__dirname, "invoices"))); // Serve uploaded invoices
 
 // CORS configuration
 const corsOptions = {
@@ -32,7 +32,7 @@ app.use(cors(corsOptions));
 
 // Multer storage setup for popup images
 const storage = multer.diskStorage({
-  destination: "uploads/",
+  destination: path.join(__dirname, "uploads"),
   filename: (req, file, cb) => {
     cb(null, "popup-image" + path.extname(file.originalname));
   },
@@ -42,7 +42,7 @@ const upload = multer({ storage });
 
 // Multer storage setup for invoices
 const invoiceStorage = multer.diskStorage({
-  destination: "invoices/",
+  destination: path.join(__dirname, "invoices"),
   filename: (req, file, cb) => {
     cb(null, `${Date.now()}-${file.originalname}`);
   },
@@ -52,12 +52,12 @@ const uploadInvoice = multer({ storage: invoiceStorage });
 
 // API to upload image
 app.post("/api/upload-popup", upload.single("popupImage"), (req, res) => {
-  res.json({ imageUrl: `https://thegrandtravelsbackend.vercel.app/uploads/${req.file.filename}` });
+  res.json({ imageUrl: `${req.protocol}://${req.get('host')}/uploads/${req.file.filename}` });
 });
 
 // API to fetch latest popup image
 app.get("/api/get-popup", (req, res) => {
-  res.json({ imageUrl: `https://thegrandtravelsbackend.vercel.app/uploads/popup-image.jpg` });
+  res.json({ imageUrl: `${req.protocol}://${req.get('host')}/uploads/popup-image.jpg` });
 });
 
 app.get('/api/health', (req, res) => {
@@ -66,7 +66,7 @@ app.get('/api/health', (req, res) => {
 
 // API to upload invoice
 app.post("/api/upload-invoice", uploadInvoice.single("invoice"), (req, res) => {
-  res.json({ invoiceUrl: `https://thegrandtravelsbackend.vercel.app/invoices/${req.file.filename}` });
+  res.json({ invoiceUrl: `${req.protocol}://${req.get('host')}/invoices/${req.file.filename}` });
 });
 
 // Serve static files in production
