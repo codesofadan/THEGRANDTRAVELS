@@ -21,9 +21,20 @@ interface FormData {
   price: number;
 }
 
+interface Invoice {
+  _id: string;
+  name: string;
+  email: string;
+  phone: string;
+  departure: string;
+  destination: string;
+  date: string;
+  price: number;
+}
+
 const CreateInvoice: React.FC = () => {
   const { handleSubmit, control } = useForm<FormData>();
-  const [invoices, setInvoices] = useState([]);
+  const [invoices, setInvoices] = useState<Invoice[]>([]);
 
   useEffect(() => {
     fetchInvoices();
@@ -45,7 +56,6 @@ const CreateInvoice: React.FC = () => {
       // Add a heading
       doc.setFontSize(15);
       doc.text("THE GRAND TRAVEL", 105, 15, { align: "center" });
-
 
       // Add a horizontal line
       doc.setLineWidth(0.5);
@@ -115,7 +125,7 @@ const CreateInvoice: React.FC = () => {
       formDataToUpload.append('invoice', pdfBlob, 'invoice.pdf');
 
       // Upload PDF to server
-      const response = await axios.post('http://localhost:5000/upload-invoice', formDataToUpload, {
+      const response = await axios.post('http://localhost:5000/api/upload-invoice', formDataToUpload, {
         headers: {
           'Content-Type': 'multipart/form-data',
         },

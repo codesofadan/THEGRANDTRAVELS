@@ -21,14 +21,16 @@ export interface Flight {
   arrival: string;
   duration: string;
   price: number;
+  departure_time: string;
+  arrival_time: string;
   status: string;
   logo: File | null;
   flight_number: string;
   departure_airport: string;
   arrival_airport: string;
-  departure_time: string;
-  arrival_time: string;
 }
+
+export type CreateFlightData = Omit<Flight, '_id' | 'logoUrl'>;
 
 // Define the Popup interface
 export interface Popup {
@@ -42,7 +44,7 @@ export function addQueryNote(queryId: string, note: Note): Promise<Query>;
 export function createQuery(query: Omit<Query, '_id' | 'notes'>): Promise<Query>;
 
 export function fetchFlights(): Promise<Flight[]>;
-export function createFlight(flightData: Omit<Flight, 'id'>): Promise<Flight>;
+export function createFlight(flightData: CreateFlightData): Promise<Flight>;
 
 export function uploadPopupImage(file: File): Promise<{ message: string, imageUrl: string }>;
 export function fetchPopupImage(): Promise<Popup>;
