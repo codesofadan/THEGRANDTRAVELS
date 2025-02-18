@@ -27,7 +27,7 @@ const BookingsManagement = () => {
 
   const fetchBookings = async () => {
     try {
-      const response = await axios.get<Booking[]>('http://localhost:5000/api/bookings');
+      const response = await axios.get<Booking[]>('https://trevel-backend.vercel.app/api/bookings');
       setBookings(response.data);
     } catch (error) {
       console.error('Error fetching bookings:', error);
@@ -37,7 +37,7 @@ const BookingsManagement = () => {
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
     try {
-      const response = await axios.post<Booking>('http://localhost:5000/api/bookings', {
+      const response = await axios.post<Booking>('https://trevel-backend.vercel.app/api/bookings', {
         customerName,
         customerEmail,
         phoneNumber,
@@ -59,7 +59,7 @@ const BookingsManagement = () => {
 
   const handleDelete = async (bookingId: string) => {
     try {
-      await axios.delete(`http://localhost:5000/api/bookings/${bookingId}`);
+      await axios.delete(`https://trevel-backend.vercel.app/api/bookings/${bookingId}`);
       setBookings((prevBookings) => prevBookings.filter((booking) => booking._id !== bookingId));
     } catch (error) {
       console.error('Error deleting booking:', error);

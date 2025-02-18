@@ -42,7 +42,7 @@ const CreateInvoice: React.FC = () => {
 
   const fetchInvoices = async () => {
     try {
-      const response = await axios.get('http://localhost:5000/api/invoices/all');
+      const response = await axios.get('https://trevel-backend.vercel.app/api/invoices/all');
       setInvoices(response.data);
     } catch (error) {
       console.error('Error fetching invoices:', error);
