@@ -1,5 +1,5 @@
 import React from 'react';
-import WhatsAppIcon from '@mui/icons-material/WhatsApp'; // Assuming you're using Material-UI for icons
+import { FaWhatsapp } from 'react-icons/fa'; // Import the WhatsApp icon from react-icons
 import './WhatsAppButton.css'; // Import the CSS file for styling
 
 const WhatsAppButton = () => {
@@ -13,7 +13,7 @@ const WhatsAppButton = () => {
 
   return (
     <div className="whatsapp-button" onClick={handleClick}>
-      <WhatsAppIcon style={{ fontSize: 40, color: '#25D366' }} />
+      <FaWhatsapp style={{ fontSize: 40, color: '#25D366' }} />
     </div>
   );
 };
