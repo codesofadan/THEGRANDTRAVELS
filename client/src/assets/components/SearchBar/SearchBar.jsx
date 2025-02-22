@@ -37,8 +37,8 @@ const SearchBar = () => {
 
   const handleSearch = async () => {
     const pageMap = {
-      flights: '/flights',
-      hotels: '/hotels',
+      flights: '/bookings'
+      hotels: '/bookings'
       flightHotels: '/flighthotels',
       packages: '/packages',
     };
