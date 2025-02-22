@@ -18,6 +18,7 @@ import SignUp from "./assets/pages/SignUpPage/SignUpPage";
 import LoginPage from "./assets/pages/LoginPage/LoginPage";
 import Profile from "./assets/components/Profile/Profile";
 import MyBookings from "./assets/pages/MyBookings/MyBookings";
+import WhatsAppButton from "./assets/components/WhatsAppButton/WhatsAppButton";
 
 const App = () => {
   return (
@@ -44,6 +45,7 @@ const App = () => {
                   <Route path="/bookings" element={<MyBookings />} />
             
             </Routes>
+            <WhatsAppButton />
 
             {/* Add Footer */}
             <Footer />
