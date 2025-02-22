@@ -3,7 +3,7 @@ import { FaWhatsapp } from 'react-icons/fa'; // Import the WhatsApp icon from re
 import './WhatsAppButton.css'; // Import the CSS file for styling
 
 const WhatsAppButton = () => {
-  const phoneNumber = 'YOUR_PHONE_NUMBER'; // Replace with your WhatsApp phone number
+  const phoneNumber = '+441274665809' 
   const message = 'Hello, I would like to inquire about...'; // Default message
 
   const handleClick = () => {
@@ -17,5 +17,5 @@ const WhatsAppButton = () => {
     </div>
   );
 };
-
++441274665809
 export default WhatsAppButton;
