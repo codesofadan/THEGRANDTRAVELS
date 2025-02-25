@@ -43,14 +43,26 @@ const getAllFlights = async (req, res) => {
 // Create a new flight
 const createFlight = async (req, res) => {
   try {
+    // Log the request body and file information
+    console.log('Request Body:', req.body);
+    console.log('Uploaded File:', req.file);
+
+    // Validate the request data
+    const { airline, flight_number, departure_airport, arrival_airport, departure_time, arrival_time, status, duration, price } = req.body;
+    if (!airline || !flight_number || !departure_airport || !arrival_airport || !departure_time || !arrival_time || !status || !duration || !price) {
+      return res.status(400).json({ error: 'All fields are required' });
+    }
+
     const flight = new Flight({
       ...req.body,
       logoUrl: req.file ? `/uploads/${req.file.filename}` : '',
     });
+
     await flight.save();
     res.status(201).json(flight);
   } catch (error) {
-    res.status(400).json({ error: error.message });
+    console.error('Error creating flight:', error);
+    res.status(500).json({ error: 'Error creating flight. Please try again later.' });
   }
 };
 
