@@ -1,25 +1,14 @@
-import { useState, useEffect, FormEvent } from 'react';
+import { useState, useEffect } from 'react';
 import axios from 'axios';
 
-// Define types for Booking
-interface Booking {
-  _id: string;
-  customerName: string;
-  customerEmail: string;
-  phoneNumber: string;
-  bookingDate: string;
-  status: string;
-  notes: string;
-}
-
 const BookingsManagement = () => {
-  const [bookings, setBookings] = useState<Booking[]>([]);
-  const [customerName, setCustomerName] = useState<string>('');
-  const [customerEmail, setCustomerEmail] = useState<string>('');
-  const [phoneNumber, setPhoneNumber] = useState<string>('');
-  const [bookingDate, setBookingDate] = useState<string>('');
-  const [status, setStatus] = useState<string>('Pending');
-  const [notes, setNotes] = useState<string>('');
+  const [bookings, setBookings] = useState<any[]>([]);
+  const [customerName, setCustomerName] = useState('');
+  const [customerEmail, setCustomerEmail] = useState('');
+  const [phoneNumber, setPhoneNumber] = useState('');
+  const [bookingDate, setBookingDate] = useState('');
+  const [status, setStatus] = useState('Pending');
+  const [notes, setNotes] = useState('');
 
   useEffect(() => {
     fetchBookings();
@@ -27,14 +16,24 @@ const BookingsManagement = () => {
 
   const fetchBookings = async () => {
     try {
-      const response = await axios.get<Booking[]>('https://trevel-backend.vercel.app/api/bookings');
+      const response = await axios.get('https://trevel-backend.vercel.app/api/bookings');
       setBookings(response.data);
     } catch (error) {
       console.error('Error fetching bookings:', error);
     }
   };
 
-  const handleSubmit = async (e: FormEvent) => {
+  interface Booking {
+    _id: string;
+    customerName: string;
+    customerEmail: string;
+    phoneNumber: string;
+    bookingDate: string;
+    status: string;
+    notes: string;
+  }
+
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     try {
       const response = await axios.post<Booking>('https://trevel-backend.vercel.app/api/bookings', {
@@ -56,6 +55,16 @@ const BookingsManagement = () => {
       console.error('Error creating booking:', error);
     }
   };
+
+  interface Booking {
+    _id: string;
+    customerName: string;
+    customerEmail: string;
+    phoneNumber: string;
+    bookingDate: string;
+    status: string;
+    notes: string;
+  }
 
   const handleDelete = async (bookingId: string) => {
     try {
@@ -126,18 +135,18 @@ const BookingsManagement = () => {
       <table style={{ width: '100%', borderCollapse: 'collapse' }}>
         <thead>
           <tr>
-            <th style={{ border: '1px solid #ddd', padding: '8px', backgroundColor: '#000', color: 'white' }}>Customer Name</th>
-            <th style={{ border: '1px solid #ddd', padding: '8px', backgroundColor: '#000', color: 'white' }}>Customer Email</th>
-            <th style={{ border: '1px solid #ddd', padding: '8px', backgroundColor: '#000', color: 'white' }}>Phone Number</th>
-            <th style={{ border: '1px solid #ddd', padding: '8px', backgroundColor: '#000', color: 'white' }}>Booking Date</th>
-            <th style={{ border: '1px solid #ddd', padding: '8px', backgroundColor: '#000', color: 'white' }}>Status</th>
-            <th style={{ border: '1px solid #ddd', padding: '8px', backgroundColor: '#000', color: 'white' }}>Notes</th>
-            <th style={{ border: '1px solid #ddd', padding: '8px', backgroundColor: '#000', color: 'white' }}>Actions</th>
+            <th style={{ border: '1px solid #ddd', padding: '8px', backgroundColor: '#000' }}>Customer Name</th>
+            <th style={{ border: '1px solid #ddd', padding: '8px', backgroundColor: '#000' }}>Customer Email</th>
+            <th style={{ border: '1px solid #ddd', padding: '8px', backgroundColor: '#000' }}>Phone Number</th>
+            <th style={{ border: '1px solid #ddd', padding: '8px', backgroundColor: '#000' }}>Booking Date</th>
+            <th style={{ border: '1px solid #ddd', padding: '8px', backgroundColor: '#000' }}>Status</th>
+            <th style={{ border: '1px solid #ddd', padding: '8px', backgroundColor: '#000' }}>Notes</th>
+            <th style={{ border: '1px solid #ddd', padding: '8px', backgroundColor: '#000' }}>Actions</th>
           </tr>
         </thead>
         <tbody>
           {bookings.map((booking) => (
-            <tr key={booking._id} style={{ backgroundColor: bookings.indexOf(booking) % 2 === 0 ? '#fff' : '#f2f2f2' }}>
+            <tr key={booking._id} style={{ backgroundColor: booking._id % 2 === 0 ? '#fff' : '#000' }}>
               <td style={{ border: '1px solid #ddd', padding: '8px' }}>{booking.customerName}</td>
               <td style={{ border: '1px solid #ddd', padding: '8px' }}>{booking.customerEmail}</td>
               <td style={{ border: '1px solid #ddd', padding: '8px' }}>{booking.phoneNumber}</td>

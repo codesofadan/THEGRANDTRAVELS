@@ -5,6 +5,9 @@ import './BookingPage.css';
 const BookingPage = () => {
   const [bookingType, setBookingType] = useState('flights');
   const [formData, setFormData] = useState({
+    name: '',
+    email: '',
+    address: '',
     departureDate: '',
     returnDate: '',
     destination: '',
@@ -40,6 +43,9 @@ const BookingPage = () => {
       await createQuery(query);
       setResponseMessage('Details submitted successfully!');
       setFormData({
+        name: '',
+        email: '',
+        address: '',
         departureDate: '',
         returnDate: '',
         destination: '',
@@ -157,6 +163,14 @@ const BookingPage = () => {
             <option value="flights&hotels">Flights & Hotels</option>
             <option value="packages">Packages</option>
           </select>
+        </div>
+        <div className="contact-details">
+          <label>Name:</label>
+          <input type="text" name="name" placeholder="Enter your name" value={formData.name} onChange={handleInputChange} />
+          <label>Email:</label>
+          <input type="email" name="email" placeholder="Enter your email" value={formData.email} onChange={handleInputChange} />
+          <label>Address:</label>
+          <input type="text" name="address" placeholder="Enter your address" value={formData.address} onChange={handleInputChange} />
         </div>
         {renderContactSection()}
         <button type="submit" className="submit-button">Submit Details</button>
