@@ -23,7 +23,7 @@ app.use(express.json());
 app.use("/uploads", express.static(path.join(__dirname, "uploads"))); 
 app.use("/invoices", express.static(path.join(__dirname, "invoices"))); 
 
-//  CORS Configuration
+// CORS Configuration
 const corsOptions = {
   origin: "*",
   methods: ["GET", "POST", "PUT", "DELETE"],
@@ -31,7 +31,7 @@ const corsOptions = {
 };
 app.use(cors(corsOptions));
 
-//  Multer Storage 
+// Multer Storage for Popup Images
 const storage = multer.diskStorage({
   destination: path.join(__dirname, "uploads"),
   filename: (req, file, cb) => {
@@ -40,7 +40,7 @@ const storage = multer.diskStorage({
 });
 const upload = multer({ storage });
 
-//  Multer Storage 
+// Multer Storage for Invoices
 const invoiceStorage = multer.diskStorage({
   destination: path.join(__dirname, "invoices"),
   filename: (req, file, cb) => {
@@ -49,22 +49,22 @@ const invoiceStorage = multer.diskStorage({
 });
 const uploadInvoice = multer({ storage: invoiceStorage });
 
-//  Health Check Route
+// Health Check Route
 app.get("/", (req, res) => {
   res.send("Hello world");
 });
 
-//  API Routes
+// API Routes
 app.use("/api/flights", flightsRoutes);
 app.use("/api/auth", authRoutes);
 app.use("/api/popup", popupRoutes);
-app.use("/api", queryRoutes);
-app.use("/api", agentRoutes);
-app.use("/api", bookingRoutes);
-app.use("/api", calendarEventRoutes);
-app.use("/api", invoiceRoutes);
+app.use("/api/queries", queryRoutes);
+app.use("/api/agents", agentRoutes);
+app.use("/api/bookings", bookingRoutes);
+app.use("/api/calendar-events", calendarEventRoutes);
+app.use("/api/invoices", invoiceRoutes);
 
-//  API to Upload Popup Image
+// API to Upload Popup Image
 app.post("/api/upload-popup", upload.single("popupImage"), (req, res) => {
   res.json({ imageUrl: `${req.protocol}://${req.get("host")}/uploads/${req.file.filename}` });
 });
@@ -74,19 +74,19 @@ app.get("/api/get-popup", (req, res) => {
   res.json({ imageUrl: `${req.protocol}://${req.get("host")}/uploads/popup-image.jpg` });
 });
 
-//  API to Upload Invoice
+// API to Upload Invoice
 app.post("/api/upload-invoice", uploadInvoice.single("invoice"), (req, res) => {
   res.json({ invoiceUrl: `${req.protocol}://${req.get("host")}/invoices/${req.file.filename}` });
 });
 
-//  Connect to MongoDB
+// Connect to MongoDB
 mongoose
-  .connect(process.env.MONGO_URI)
-  .then(() => console.log(" MongoDB Connected Successfully!"))
-  .catch((err) => console.error(" Database Connection Error:", err));
+  .connect(process.env.MONGO_URI, { useNewUrlParser: true, useUnifiedTopology: true })
+  .then(() => console.log("MongoDB Connected Successfully!"))
+  .catch((err) => console.error("Database Connection Error:", err));
 
 // Start the Server
 const port = process.env.PORT || 5000;
 app.listen(port, () => {
-  console.log(` Server running on port ${port}`);
+  console.log(`Server running on port ${port}`);
 });

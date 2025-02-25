@@ -85,29 +85,21 @@ export const addQueryNote = async (queryId, note) => {
 };
 
 // Function to create a flight
-const createFlight = async (req, res) => {
+export const createFlight = async (flightData) => {
   try {
-    // Log the request body and file information
-    console.log('Request Body:', req.body);
-    console.log('Uploaded File:', req.file);
-
-    // Validate the request data
-    const { airline, flight_number, departure_airport, arrival_airport, departure_time, arrival_time, status, duration, price } = req.body;
-    if (!airline || !flight_number || !departure_airport || !arrival_airport || !departure_time || !arrival_time || !status || !duration || !price) {
-      console.error('Validation Error: All fields are required');
-      return res.status(400).json({ error: 'All fields are required' });
+    const formData = new FormData();
+    for (const key in flightData) {
+      formData.append(key, flightData[key]);
     }
-
-    const flight = new Flight({
-      ...req.body,
-      logoUrl: req.file ? `/uploads/${req.file.filename}` : '',
+    const response = await axios.post(`${API_BASE}/flights/create`, formData, {
+      headers: {
+        'Content-Type': 'multipart/form-data',
+      },
     });
-
-    await flight.save();
-    res.status(201).json(flight);
+    return response.data;
   } catch (error) {
     console.error('Error creating flight:', error);
-    res.status(500).json({ error: 'Error creating flight. Please try again later.' });
+    throw new Error(error.response?.data?.message || 'Failed to create flight');
   }
 };
 
