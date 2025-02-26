@@ -41,7 +41,6 @@ function App() {
               <Route path="newUser" element={<PrivateRoute path="newUser" component={NewUserPage} />} />
               <Route path="calendar" element={<PrivateRoute path="calendar" component={CalendarPage} />} />
               <Route path="Agent Management" element={<PrivateRoute path="Agent Management" component={FaqPage} />} />
-              <Route path="Flight Management" element={<PrivateRoute path="Flight Management" component={BarPage} />} />
               <Route path="Popups" element={<PrivateRoute path="Popups" component={PopupManager} />} />
               <Route path="Reports" element={<PrivateRoute path="Reports" component={LinePage} />} />
               <Route path="Booking Management" element={<PrivateRoute path="Booking Management" component={GeographyPage} />} />
