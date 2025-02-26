@@ -19,7 +19,6 @@ const InvoicesPage = lazy(() => import("./pages/Invoices"));
 const ContactsPage = lazy(() => import("./pages/Contacts"));
 const CalendarPage = lazy(() => import("./pages/Calendar"));
 const FaqPage = lazy(() => import("./pages/Faq"));
-const BarPage = lazy(() => import("./pages/Bar"));
 const LinePage = lazy(() => import("./pages/Line"));
 const GeographyPage = lazy(() => import("./pages/Geography"));
 const NewUserPage = lazy(() => import("./pages/NewUser"));
