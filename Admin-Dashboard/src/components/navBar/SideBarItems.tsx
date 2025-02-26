@@ -25,16 +25,8 @@ import useMediaQuery from "@mui/material/useMediaQuery";
 const menuItems = [
   {
     items: [
-      {
-        title: "Manage Team",
-        to: "/team",
-        icon: <PeopleOutlinedIcon />,
-      },
-      {
-        title: "Contacts",
-        to: "/contacts",
-        icon: <ContactsOutlinedIcon />,
-      },
+      
+      
       {
         title: "Invoices",
         to: "/invoices",

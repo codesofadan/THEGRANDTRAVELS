@@ -1,25 +1,19 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
+import { useNavigate } from "react-router-dom"; // React Router for navigation
 import { Box, Slide, useScrollTrigger, useTheme } from "@mui/material";
 import Toolbar from "@mui/material/Toolbar";
 import IconButton from "@mui/material/IconButton";
-import Badge from "@mui/material/Badge";
 import SearchIcon from "@mui/icons-material/Search";
-import NotificationsOutlinedIcon from "@mui/icons-material/NotificationsOutlined";
 import MenuIcon from "@mui/icons-material/Menu";
 import { InputAdornment, OutlinedInput } from "@mui/material";
 import useThemeMode from "../../hooks/useThemeMode";
 import LightModeOutlinedIcon from "@mui/icons-material/LightModeOutlined";
 import DarkModeOutlinedIcon from "@mui/icons-material/DarkModeOutlined";
-import PersonAdd from "@mui/icons-material/PersonAdd";
-import Settings from "@mui/icons-material/Settings";
-import Logout from "@mui/icons-material/Logout";
 import Avatar from "@mui/material/Avatar";
-import EmailOutlinedIcon from "@mui/icons-material/EmailOutlined";
 import Tooltip from "@mui/material/Tooltip";
 import { AppBar } from "../../theme/ThemeComponents";
 import DropMenuIcon from "./DropMenuIcon";
 import SearchInput from "./SearchInput";
-import { io } from 'socket.io-client';
 
 type NavBarProps = {
   open: boolean;
@@ -37,50 +31,15 @@ const accountMenu = [
       />
     ),
   },
-  { title: "My account", icon: <Avatar /> },
-  { title: "Add another account", icon: <PersonAdd fontSize="small" /> },
-  { title: "Settings", icon: <Settings fontSize="small" /> },
-  { title: "Logout", icon: <Logout fontSize="small" /> },
-];
-
-const messagesMenu = [
-  {
-    title: "Message 1",
-    icon: (
-      <Badge variant="dot" color="error">
-        <EmailOutlinedIcon />
-      </Badge>
-    ),
-  },
-  {
-    title: "Message 2",
-    icon: (
-      <Badge variant="dot" color="error">
-        <EmailOutlinedIcon />
-      </Badge>
-    ),
-  },
-  // Add more messages as needed
+  
 ];
 
 const NavBar = ({ open, handleDrawer }: NavBarProps) => {
   const [isSearchOpen, setIsSearchOpen] = useState(false);
-  const [notifications, setNotifications] = useState<{ message: string }[]>([]);
   const theme = useTheme();
   const colorMode = useThemeMode();
   const trigger = useScrollTrigger();
-
-  useEffect(() => {
-    const socket = io('http://localhost:5000');
-
-    socket.on('notification', (notification) => {
-      setNotifications((prevNotifications) => [...prevNotifications, notification]);
-    });
-
-    return () => {
-      socket.off('notification');
-    };
-  }, []);
+  const navigate = useNavigate(); // Hook for navigation
 
   const openSearchHandler = () => {
     setIsSearchOpen(true);
@@ -89,14 +48,28 @@ const NavBar = ({ open, handleDrawer }: NavBarProps) => {
     setIsSearchOpen(false);
   };
 
-  const notificationsMenu = notifications.map((notification, index) => ({
-    title: notification.message,
-    icon: (
-      <Badge variant="dot" color="error" key={index}>
-        <NotificationsOutlinedIcon />
-      </Badge>
-    ),
-  }));
+  const handleLogout = () => {
+    // Clear user session
+    localStorage.removeItem("authToken"); // If using tokens
+    sessionStorage.clear();
+    
+    console.log("User logged out successfully");
+    
+    // Redirect to login page
+    navigate("/login", { replace: true });
+  };
+
+  const handleMenuClick = (action: string) => {
+    if (action === "logout") {
+      // Clear authentication state (example: remove token from localStorage)
+      localStorage.removeItem("authToken"); 
+      sessionStorage.removeItem("authToken"); // If using sessionStorage
+  
+      // Redirect to login page
+      window.location.href = "/login";
+    }
+  };
+  
 
   return (
     <Slide appear={false} direction="down" in={!trigger}>
@@ -186,28 +159,6 @@ const NavBar = ({ open, handleDrawer }: NavBarProps) => {
                   </IconButton>
                 </Tooltip>
                 <DropMenuIcon
-                  menuItems={messagesMenu}
-                  toolTip="Messages"
-                  id="messages-menu"
-                  mainIcon={
-                    <Badge badgeContent={3} color="error">
-                      <EmailOutlinedIcon sx={{ fontSize: "22px" }} />
-                    </Badge>
-                  }
-                  divider={true}
-                />
-                <DropMenuIcon
-                  menuItems={notificationsMenu}
-                  toolTip="Notifications"
-                  id="notifications-menu"
-                  mainIcon={
-                    <Badge badgeContent={notifications.length} color="error">
-                      <NotificationsOutlinedIcon sx={{ fontSize: "24px" }} />
-                    </Badge>
-                  }
-                  divider={true}
-                />
-                <DropMenuIcon
                   menuItems={accountMenu}
                   toolTip="Account settings"
                   id="account-menu"
@@ -219,6 +170,7 @@ const NavBar = ({ open, handleDrawer }: NavBarProps) => {
                     />
                   }
                   divider={false}
+                  onMenuItemClick={handleMenuClick}
                 />
               </Box>
             </Box>

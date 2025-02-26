@@ -1,63 +1,114 @@
 import {
   Box,
   Stack,
+  Button,
 } from "@mui/material";
 import StatBox from "../components/home/StatBox";
-import Button from "@mui/material/Button";
 import Header from "../components/ui/Header";
 import DownloadOutlinedIcon from "@mui/icons-material/DownloadOutlined";
-import EmailIcon from "@mui/icons-material/Email";
-import PointOfSaleIcon from "@mui/icons-material/PointOfSale";
-import PersonAddIcon from "@mui/icons-material/PersonAdd";
-import TrafficIcon from "@mui/icons-material/Traffic";
 import Grid from "@mui/material/Grid";
-import Transactions from "../components/home/Transactions";
-import SectionContainer from "../components/home/SectionContainer";
-import LineChart from "../components/charts/LineChart";
-import PieChart from "../components/charts/PieChart";
-import BarChart from "../components/charts/BarChart";
-import GeoChart from "../components/charts/GeoChart";
+import { useState } from "react";
+import {
+  BarChart,
+  Bar,
+  XAxis,
+  YAxis,
+  CartesianGrid,
+  Tooltip,
+  Legend,
+  ResponsiveContainer,
+} from 'recharts';
 
-const statBoxData = [
-  {
-    title: "Emails Sent",
-    subtitle: "200",
-    progress: 70,
-    increase: "25%",
-    icon: <EmailIcon fontSize="large" sx={{ color: "grey.200" }} />,
-    up: true,
-  },
-  {
-    title: "New Clients",
-    subtitle: "4",
-    progress: 50,
-    increase: "5%",
-    icon: <PersonAddIcon fontSize="large" sx={{ color: "grey.200" }} />,
-    up: false,
-  },
-  {
-    title: "Sales Obtained",
-    subtitle: "100",
-    progress: 85,
-    increase: "40%",
-    icon: <PointOfSaleIcon fontSize="large" sx={{ color: "grey.200" }} />,
-    up: true,
-  },
-  {
-    title: "Traffic Received",
-    subtitle: "1,325,2",
-    progress: 40,
-    increase: "12%",
-    icon: <TrafficIcon fontSize="large" sx={{ color: "grey.200" }} />,
-    up: false,
-  },
-];
+interface Metric {
+  title: string;
+  subtitle: string;
+  progress: number;
+  increase: string;
+  chartData: { name: string; value: number }[];
+}
 
 const HomePage = () => {
+  const [selectedChart, setSelectedChart] = useState<number | null>(null);
+
+  const metricsData: Metric[] = [
+    {
+      title: "Today’s Queries",
+      subtitle: "20",
+      progress: 30,
+      increase: "2%",
+      chartData: [{ name: 'Today', value: 20 }, { name: 'Yesterday', value: 18 }],
+    },
+    {
+      title: "Total Queries Received",
+      subtitle: "1,200",
+      progress: 80,
+      increase: "15%",
+      chartData: [{ name: 'Jan', value: 100 }, { name: 'Feb', value: 200 }, { name: 'Mar', value: 300 }],
+    },
+    {
+      title: "Pending Queries",
+      subtitle: "300",
+      progress: 50,
+      increase: "5%",
+      chartData: [{ name: 'Jan', value: 50 }, { name: 'Feb', value: 60 }, { name: 'Mar', value: 70 }],
+    },
+    {
+      title: "Assigned Queries",
+      subtitle: "600",
+      progress: 70,
+      increase: "10%",
+      chartData: [{ name: 'Jan', value: 150 }, { name: 'Feb', value: 160 }, { name: 'Mar', value: 170 }],
+    },
+    {
+      title: "Resolved Queries",
+      subtitle: "900",
+      progress: 90,
+      increase: "20%",
+      chartData: [{ name: 'Jan', value: 200 }, { name: 'Feb', value: 220 }, { name: 'Mar', value: 240 }],
+    },
+    {
+      title: "Total Bookings Confirmed",
+      subtitle: "500",
+      progress: 85,
+      increase: "25%",
+      chartData: [{ name: 'Jan', value: 50 }, { name: 'Feb', value: 55 }, { name: 'Mar', value: 60 }],
+    },
+    {
+      title: "Pending Bookings",
+      subtitle: "100",
+      progress: 40,
+      increase: "8%",
+      chartData: [{ name: 'Jan', value: 10 }, { name: 'Feb', value: 12 }, { name: 'Mar', value: 14 }],
+    },
+    {
+      title: "Total Agents",
+      subtitle: "50",
+      progress: 100,
+      increase: "0%",
+      chartData: [{ name: 'Jan', value: 5 }, { name: 'Feb', value: 5 }, { name: 'Mar', value: 5 }],
+    },
+    {
+      title: "Client Response Rate",
+      subtitle: "85%",
+      progress: 85,
+      increase: "5%",
+      chartData: [{ name: 'Jan', value: 80 }, { name: 'Feb', value: 82 }, { name: 'Mar', value: 85 }],
+    },
+    {
+      title: "Average Query Resolution Time",
+      subtitle: "2h 30m",
+      progress: 70,
+      increase: "10%",
+      chartData: [{ name: 'Jan', value: 2.5 }, { name: 'Feb', value: 2.4 }, { name: 'Mar', value: 2.3 }],
+    },
+  ];
+
+  const handleChartToggle = (index: number) => {
+    setSelectedChart(selectedChart === index ? null : index);
+  };
+
   return (
     <>
-    {/* <SearchInput/> */}
-      {/* header */}
       <Box
         display="flex"
         justifyContent="space-between"
@@ -68,72 +119,48 @@ const HomePage = () => {
         <Button
           size="medium"
           variant="contained"
-          sx={{alignSelf:"end"}}
+          sx={{ alignSelf: "end" }}
           startIcon={<DownloadOutlinedIcon />}
         >
           Reports
         </Button>
       </Box>
       <Stack direction="column" spacing={1} ml={-2} mr={2} mt={-2}>
-        {/* first row */}
-
         <Grid container rowSpacing={4} columnSpacing={2}>
-          {statBoxData.map((box, index) => (
+          {metricsData.map((metric, index) => (
             <Grid item xs={12} sm={6} md={4} lg={3} key={index}>
               <StatBox
-                title={box.title}
-                subtitle={box.subtitle}
-                value={box.progress}
-                increase={box.increase}
-                icon={box.icon}
-                up={box.up}
+                title={metric.title}
+                subtitle={metric.subtitle}
+                icon={<DownloadOutlinedIcon />}
+                value={metric.progress}
+                increase={metric.increase}
+                up={true}
               />
+              <Button
+                variant="outlined"
+                fullWidth
+                onClick={() => handleChartToggle(index)}
+                sx={{ mt: 2 }}
+              >
+                {selectedChart === index ? "Hide Chart" : "Show Chart"}
+              </Button>
+              {selectedChart === index && (
+                <Box mt={2} height={300}>
+                  <ResponsiveContainer width="100%" height="100%">
+                    <BarChart data={metric.chartData}>
+                      <CartesianGrid strokeDasharray="3 3" />
+                      <XAxis dataKey="name" />
+                      <YAxis />
+                      <Tooltip />
+                      <Legend />
+                      <Bar dataKey="value" fill="#8884d8" />
+                    </BarChart>
+                  </ResponsiveContainer>
+                </Box>
+              )}
             </Grid>
           ))}
-        </Grid>
-
-        {/* second row */}
-
-        <Grid container columnSpacing={2} rowSpacing={4}>
-          <Grid item xs={12} md={8}>
-            <SectionContainer
-              title="Revenue Generated"
-              subTitle="$593"
-              height="271px"
-            >
-              <LineChart isDashboard={true} />
-            </SectionContainer>
-          </Grid>
-          <Grid item xs={12} md={4}>
-            <Transactions />
-          </Grid>
-        </Grid>
-
-        {/* third row */}
-        <Grid container columnSpacing={2} rowSpacing={4}>
-          <Grid item xs={12} md={6} lg={4}>
-            <SectionContainer
-              title="Campaign"
-              subTitle="$450"
-              height="272px"
-            >
-              <PieChart isDashboard={true} />
-            </SectionContainer>
-          </Grid>
-          <Grid item xs={12} md={6} lg={4}>
-            <SectionContainer
-              title="Sales Quantity"
-              subTitle="$2800"
-              height="272px"
-            >
-              <BarChart isDashboard={true} />
-            </SectionContainer>
-          </Grid>
-          <Grid item xs={12} md={6} lg={4}>
-            <SectionContainer title="Geography Based Traffic" height="289px">
-              <GeoChart isDashboard={true} />
-            </SectionContainer>
-          </Grid>
         </Grid>
       </Stack>
     </>
