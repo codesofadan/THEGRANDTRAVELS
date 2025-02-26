@@ -1,5 +1,4 @@
 import { useState } from "react";
-import { useNavigate } from "react-router-dom"; // React Router for navigation
 import { Box, Slide, useScrollTrigger, useTheme } from "@mui/material";
 import Toolbar from "@mui/material/Toolbar";
 import IconButton from "@mui/material/IconButton";
@@ -39,7 +38,6 @@ const NavBar = ({ open, handleDrawer }: NavBarProps) => {
   const theme = useTheme();
   const colorMode = useThemeMode();
   const trigger = useScrollTrigger();
-  const navigate = useNavigate(); // Hook for navigation
 
   const openSearchHandler = () => {
     setIsSearchOpen(true);
@@ -48,27 +46,7 @@ const NavBar = ({ open, handleDrawer }: NavBarProps) => {
     setIsSearchOpen(false);
   };
 
-  const handleLogout = () => {
-    // Clear user session
-    localStorage.removeItem("authToken"); // If using tokens
-    sessionStorage.clear();
-    
-    console.log("User logged out successfully");
-    
-    // Redirect to login page
-    navigate("/login", { replace: true });
-  };
 
-  const handleMenuClick = (action: string) => {
-    if (action === "logout") {
-      // Clear authentication state (example: remove token from localStorage)
-      localStorage.removeItem("authToken"); 
-      sessionStorage.removeItem("authToken"); // If using sessionStorage
-  
-      // Redirect to login page
-      window.location.href = "/login";
-    }
-  };
   
 
   return (
@@ -170,7 +148,6 @@ const NavBar = ({ open, handleDrawer }: NavBarProps) => {
                     />
                   }
                   divider={false}
-                  onMenuItemClick={handleMenuClick}
                 />
               </Box>
             </Box>
