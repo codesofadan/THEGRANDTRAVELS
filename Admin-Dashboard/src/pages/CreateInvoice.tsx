@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useForm, Controller } from "react-hook-form";
-import { Box, Button, TextField, Typography, MenuItem, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper } from "@mui/material";
+import { Box, Button, TextField, Typography, MenuItem, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, Snackbar, Alert } from "@mui/material";
 import jsPDF from "jspdf";
 import autoTable from "jspdf-autotable";
 import axios from "axios";
@@ -22,7 +22,7 @@ interface FormData {
 }
 
 const CreateInvoice: React.FC = () => {
-  const { handleSubmit, control } = useForm<FormData>();
+  const { handleSubmit, control, reset } = useForm<FormData>();
   interface Invoice {
     _id: string;
     name: string;
@@ -35,6 +35,7 @@ const CreateInvoice: React.FC = () => {
   }
   
   const [invoices, setInvoices] = useState<Invoice[]>([]);
+  const [alert, setAlert] = useState<{type: 'success' | 'error', message: string} | null>(null);
 
   useEffect(() => {
     fetchInvoices();
@@ -46,6 +47,7 @@ const CreateInvoice: React.FC = () => {
       setInvoices(response.data);
     } catch (error) {
       console.error('Error fetching invoices:', error);
+      setAlert({ type: 'error', message: 'Failed to fetch invoices' });
     }
   };
 
@@ -119,25 +121,44 @@ const CreateInvoice: React.FC = () => {
       );
       doc.text(footerText, 105, lastY + 20, { align: "center" });
 
-      // Save PDF
-      const pdfBlob = doc.output('blob');
-      const formDataToUpload = new FormData();
-      formDataToUpload.append('invoice', pdfBlob, 'invoice.pdf');
+      // First save/download the PDF
+      doc.save(`invoice_${formData.name.replace(/\s+/g, '_')}.pdf`);
 
-      // Upload PDF to server
-      const response = await axios.post('http://localhost:5000/upload-invoice', formDataToUpload, {
-        headers: {
-          'Content-Type': 'multipart/form-data',
-        },
-      });
+      try {
+        // Then upload the PDF to server (if needed)
+        const pdfBlob = doc.output('blob');
+        const formDataToUpload = new FormData();
+        formDataToUpload.append('invoice', pdfBlob, `invoice_${formData.name.replace(/\s+/g, '_')}.pdf`);
+        formDataToUpload.append('name', formData.name);
+        formDataToUpload.append('email', formData.email);
+        formDataToUpload.append('phone', formData.phone);
+        formDataToUpload.append('departure', formData.departure);
+        formDataToUpload.append('destination', formData.destination);
+        formDataToUpload.append('date', formData.date);
+        formDataToUpload.append('price', formData.price.toString());
 
-      console.log('Invoice uploaded:', response.data.invoiceUrl);
-      doc.save("invoice.pdf");
+        // Upload to the same server as where we're getting invoices from
+        const response = await axios.post('https://trevel-backend.vercel.app/api/invoices/upload', formDataToUpload, {
+          headers: {
+            'Content-Type': 'multipart/form-data',
+          },
+        });
 
-      // Fetch updated invoices list
-      fetchInvoices();
+        console.log('Invoice uploaded:', response.data);
+        setAlert({ type: 'success', message: 'Invoice created and uploaded successfully!' });
+        
+        // Fetch updated invoices list
+        fetchInvoices();
+        
+        // Reset the form
+        reset();
+      } catch (uploadError) {
+        console.error("Error uploading PDF:", uploadError);
+        setAlert({ type: 'error', message: 'Invoice downloaded but failed to upload to server' });
+      }
     } catch (error) {
       console.error("Error generating PDF:", error);
+      setAlert({ type: 'error', message: 'Error generating invoice PDF' });
     }
   };
 
@@ -145,8 +166,20 @@ const CreateInvoice: React.FC = () => {
     generatePDF(formData);
   };
 
+  const handleCloseAlert = () => {
+    setAlert(null);
+  };
+
   return (
     <Box sx={{ maxWidth: 800, mx: "auto", mt: 4 }}>
+      {alert && (
+        <Snackbar open={!!alert} autoHideDuration={6000} onClose={handleCloseAlert}>
+          <Alert onClose={handleCloseAlert} severity={alert.type} sx={{ width: '100%' }}>
+            {alert.message}
+          </Alert>
+        </Snackbar>
+      )}
+      
       <Typography variant="h4" component="h1" gutterBottom>
         Create Invoice
       </Typography>
