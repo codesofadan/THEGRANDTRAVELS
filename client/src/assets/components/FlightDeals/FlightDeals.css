@@ -201,4 +201,44 @@
   .flight-price span {
     color: #001F54;
   }
+  .flight-deals h2{
+    font-size: 2.5rem;
+  }
+  .flight-image-container {
+    position: absolute;
+    top: -40px; /* Make it protrude out of the card */
+    left: -50px; /* Make it protrude out of the card */
+    width: 200px; /* Increase size to match the other circle */
+    height: 200px; /* Increase size to match the other circle */
+    border-radius: 50%;
+    overflow: hidden;
+    z-index: 1; /* Ensure the image is above the shadow */
+  }
+  
+  .flight-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+  .circle-overlay {
+    position: absolute;
+    top: -50px;
+    right: -50px;
+    width: 150px;
+    height: 150px;
+    background: #ffcc00;
+    border-radius: 50%;
+    z-index: 1;
+  }
+  
+  .shadow-circle {
+    position: absolute;
+    top: -45px; /* Adjust as needed */
+    left: -45px; /* Adjust as needed */
+    width: 210px; /* Slightly larger than the image */
+    height: 210px; /* Slightly larger than the image */
+    background: rgba(60, 57, 57, 0.1); /* Light black color */
+    border-radius: 50%;
+    z-index: 0; /* Ensure the shadow is behind the image */
+  }
 }

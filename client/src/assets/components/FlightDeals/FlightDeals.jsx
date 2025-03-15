@@ -23,7 +23,7 @@ const FlightCard = ({ city, dates, price, image }) => (
     <div className="flight-info">
       <p className="flight-dates">{dates}</p>
       <h3 className="flight-city">{city}</h3>
-      <p className="flight-price">Starting at <span>{price}</span></p>
+      <p className="flight-price">Avail at <span>{price}</span></p>
       <Link to="/bookings">
         <button className="book-button">Book Now</button>
       </Link>

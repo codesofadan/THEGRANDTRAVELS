@@ -67,9 +67,23 @@ const Footer = () => {
       {/* Footer Content */}
       <div className="footer-content">
         <p className="footer-copyright">
-          The Grand Travel - All rights reserved © 2024
+          The Grand Travel - All rights reserved © 2025
         </p>
-        <p className="footer-made-by">MADE BY WEBSTEAM</p>
+        <p className="footer-made-by">
+          MADE BY WEBSTEAM & {" "}
+          <a
+            href="https://www.adandevelops.me"
+            target="_blank"
+            rel="noopener noreferrer"
+            style={{
+              color: 'red',
+              textDecoration: 'none',
+              fontWeight: 'bold'
+            }}
+          >
+            Adan
+          </a>
+        </p>
       </div>
     </footer>
   );
