@@ -21,7 +21,6 @@ const CalendarPage = lazy(() => import("./pages/Calendar"));
 const FaqPage = lazy(() => import("./pages/Faq"));
 const LinePage = lazy(() => import("./pages/Line"));
 const GeographyPage = lazy(() => import("./pages/Geography"));
-const NewUserPage = lazy(() => import("./pages/NewUser"));
 const CreateInvoicePage = lazy(() => import("./pages/CreateInvoice"));
 const LoginPage = lazy(() => import("./pages/login"));
 
@@ -38,7 +37,6 @@ function App() {
               <Route path="contacts" element={<PrivateRoute path="contacts" component={ContactsPage} />} />
               <Route path="invoices" element={<PrivateRoute path="invoices" component={InvoicesPage} />} />
               <Route path="createinvoice" element={<PrivateRoute path="createinvoice" component={CreateInvoicePage} />} />
-              <Route path="newUser" element={<PrivateRoute path="newUser" component={NewUserPage} />} />
               <Route path="calendar" element={<PrivateRoute path="calendar" component={CalendarPage} />} />
               <Route path="Agent Management" element={<PrivateRoute path="Agent Management" component={FaqPage} />} />
               <Route path="Popups" element={<PrivateRoute path="Popups" component={PopupManager} />} />
