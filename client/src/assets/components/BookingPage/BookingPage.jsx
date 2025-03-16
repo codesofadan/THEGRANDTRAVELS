@@ -43,15 +43,7 @@ const BookingPage = () => {
     passengers: '',
     class: 'Economy',
     isAdult: 'Yes',
-    preferredAirline: '',
-    checkInDate: '',
-    checkOutDate: '',
-    location: '',
-    guests: '',
     roomType: 'Single',
-    packageType: '',
-    travelDates: '',
-    numberOfTravelers: '',
   });
   const [responseMessage, setResponseMessage] = useState('');
   const [suggestions, setSuggestions] = useState([]);
